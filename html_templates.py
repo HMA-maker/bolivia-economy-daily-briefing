@@ -134,10 +134,13 @@ def generate_email_hook_html(data, image_url, web_report_url):
             <td style="background-color: #ffffff; padding: 24px 28px; text-align: left; border-bottom: 3px solid #E76F2D;">
               <table width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td>
-                    <!-- LOGO PLACEHOLDER: Sube tu logo a la carpeta assets/logo.png -->
-                    <img src="{logo_url}" alt="Consultora Maldonado" style="max-height: 50px; margin-bottom: 15px; display: block;" />
-                    <h1 style="color: #2d2d2d; margin: 0 0 4px 0; font-size: 21px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.3;">🇧🇴 Resumen Ejecutivo: Macroeconomía de Bolivia</h1>
+                  <td width="60" valign="middle">
+                    <!-- LOGO O ICONO -->
+                    <img src="{logo_url}" alt="Logo" style="max-height: 50px; display: block;" />
+                  </td>
+                  <td valign="middle" style="padding-left: 15px;">
+                    <div style="color: #E76F2D; font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;">Consultora Maldonado</div>
+                    <h1 style="color: #2d2d2d; margin: 0 0 4px 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.3;">🇧🇴 Resumen Ejecutivo</h1>
                     <p style="color: #64748b; margin: 0; font-size: 13px;">Fecha de análisis: {fecha}</p>
                   </td>
                 </tr>
@@ -211,12 +214,19 @@ def generate_email_hook_html(data, image_url, web_report_url):
                 </tr>
               </table>
 
-              <!-- 3. LLAMADA A LA ACCIÓN (BOTÓN PRINCIPAL ALTO CONTRASTE) -->
+              <!-- 3. LLAMADA A LA ACCIÓN (BULLETPROOF BUTTON ALTO CONTRASTE) -->
               <div style="text-align: center; margin: 28px 0 20px 0;">
-                <a href="{web_report_url}" target="_blank" style="background-color: #E76F2D; color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 14px rgba(231, 111, 45, 0.4); text-transform: uppercase; letter-spacing: 0.5px;">
-                  Ver Informe Completo en la Web ↗
-                </a>
-                <p style="font-size: 12px; color: #64748b; margin: 10px 0 0 0;">
+                <!--[if mso]>
+                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{web_report_url}" style="height:50px;v-text-anchor:middle;width:300px;" arcsize="16%" stroke="f" fillcolor="#E76F2D">
+                  <w:anchorlock/>
+                  <center>
+                <![endif]-->
+                    <a href="{web_report_url}" target="_blank" style="background-color:#E76F2D;border-radius:8px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:15px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:300px;-webkit-text-size-adjust:none;">VER INFORME COMPLETO EN LA WEB ↗</a>
+                <!--[if mso]>
+                  </center>
+                </v:roundrect>
+                <![endif]-->
+                <p style="font-size: 12px; color: #64748b; margin: 15px 0 0 0;">
                   Incluye desglose de Bonos Soberanos, Finanzas Públicas e historial interactivo.
                 </p>
               </div>

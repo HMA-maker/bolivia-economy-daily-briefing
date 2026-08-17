@@ -24,7 +24,54 @@ def get_current_date():
     fecha_iso = now.strftime("%Y-%m-%d")
     return fecha_legible, fecha_iso
 
-def generate_macro_briefing(gemini_api_key, fecha_str, fecha_iso):
+def fetch_exa_news(api_key):
+    if not api_key:
+        return "Noticias vía EXA no disponibles (Falta API Key)."
+    print("[*] Buscando noticias recientes con EXA.ai...")
+    try:
+        url = "https://api.exa.ai/search"
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "x-api-key": api_key
+        }
+        payload = {
+            "query": "Noticias económicas Bolivia reservas BCB escasez de dólares inflación",
+            "numResults": 5,
+            "useAutoprompt": True,
+            "contents": {
+                "text": {"maxCharacters": 1000}
+            }
+        }
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        response.raise_for_status()
+        results = response.json().get("results", [])
+        context = ""
+        for r in results:
+            context += f"- Título: {r.get('title')}\n- Fecha: {r.get('publishedDate')}\n- Resumen: {r.get('text', '')[:500]}...\n\n"
+        return context if context else "No se encontraron resultados en EXA."
+    except Exception as e:
+        print(f"[-] Error en EXA: {e}")
+        return f"Error obteniendo noticias de EXA: {e}"
+
+def fetch_fmp_data(api_key):
+    if not api_key:
+        return "Cotizaciones de FMP no disponibles (Falta API Key)."
+    print("[*] Buscando cotizaciones en FMP...")
+    try:
+        url = f"https://financialmodelingprep.com/api/v3/quote/XAUUSD,CLUSD?apikey={api_key}"
+        response = requests.get(url, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        context = ""
+        for item in data:
+            context += f"- {item.get('name', item.get('symbol'))}: ${item.get('price')} (Cambio: {item.get('changesPercentage')}%, Volumen: {item.get('volume')})\n"
+        return context if context else "No se encontraron cotizaciones en FMP."
+    except Exception as e:
+        print(f"[-] Error en FMP: {e}")
+        return f"Error obteniendo cotizaciones de FMP: {e}"
+
+def generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str, fecha_iso):
     """
     Investiga con Google Search y genera el análisis macroeconómico estructurado
     siguiendo las directivas de /macro-bolivia-infografia.
@@ -35,11 +82,22 @@ def generate_macro_briefing(gemini_api_key, fecha_str, fecha_iso):
 
     client = genai.Client(api_key=gemini_api_key)
     
+    exa_context = fetch_exa_news(exa_api_key)
+    fmp_context = fetch_fmp_data(fmp_api_key)
+    
     prompt = f"""
 Actúas como un Director Financiero (CFO), Economista Senior y Consultor Financiero de Consultora Maldonado, especializado en el sistema financiero, cambiario y fiscal de Bolivia.
 Fecha actual de análisis: {fecha_str} ({fecha_iso}).
 
-Tu objetivo es investigar rigurosamente las cifras económicas de las últimas 24 a 48 horas en Bolivia (BCB, INE, ASFI, tipo de cambio paralelo / USDT, bonos soberanos, inflación, balanza comercial) y generar una respuesta con DOS PARTES:
+DATOS EXTRAÍDOS EN TIEMPO REAL:
+--- NOTICIAS EXA ---
+{exa_context}
+
+--- COTIZACIONES FMP (Contexto Global) ---
+{fmp_context}
+----------------------------------
+
+Tu objetivo es analizar rigurosamente estos datos y las cifras económicas de las últimas 24 a 48 horas en Bolivia (BCB, INE, ASFI, tipo de cambio paralelo / USDT, bonos soberanos, inflación, balanza comercial) y generar una respuesta con DOS PARTES:
 
 PARTE 1: Un bloque JSON estrictamente válido encerrado entre ```json y ``` con los siguientes campos y métricas cuantitativas exactas:
 ```json
@@ -154,19 +212,18 @@ Genera ambas partes con datos cuantitativos contrastados y actualizados.
     
     raw_response_text = ""
     for model in models_to_try:
-        # 1. Intentar con Interactions API + Google Search
+        # 1. Intentar con Interactions API (Sin Search tool, confiando en EXA y FMP)
         try:
-            print(f"[*] Intentando Interactions API con Google Search ({model})...")
+            print(f"[*] Intentando Interactions API ({model})...")
             interaction = client.interactions.create(
                 model=model,
-                input=prompt,
-                tools=[{"type": "google_search"}]
+                input=prompt
             )
             if interaction and interaction.output_text:
                 raw_response_text = interaction.output_text
                 break
         except Exception as e:
-            print(f"[-] Interactions API con Search falló para {model}: {e}")
+            print(f"[-] Interactions API falló para {model}: {e}")
 
         # 2. Intentar con generate_content
         try:
@@ -402,6 +459,8 @@ def publish_and_send_briefing(composio_api_key, database_id, title, full_markdow
 def main():
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
     composio_api_key = os.environ.get("COMPOSIO_API_KEY")
+    exa_api_key = os.environ.get("EXA_API_KEY")
+    fmp_api_key = os.environ.get("FMP_API_KEY")
     database_id = os.environ.get("NOTION_DATABASE_ID", "3ba5d0f0-6844-8066-93f3-dfbc26b037f0")
     recipient_email = os.environ.get("RECIPIENT_EMAIL", "consultoramaldonado@gmail.com")
     site_base_url = os.environ.get("SITE_BASE_URL", "https://informe.consultoramaldonado.com")
@@ -420,8 +479,8 @@ def main():
 
     print(f"=== INICIANDO PROCESO DIARIO: {fecha_str} ===")
 
-    # 1. Investigar y estructurar el análisis macroeconómico con Gemini
-    data_dict, full_markdown = generate_macro_briefing(gemini_api_key, fecha_str, fecha_iso)
+    # 1. Analizar el contexto inyectado de EXA/FMP y estructurar el análisis con Gemini
+    data_dict, full_markdown = generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str, fecha_iso)
 
     # 2. Generar la Infografía Visual (PNG de alta resolución)
     docs_dir = os.path.abspath("docs")
