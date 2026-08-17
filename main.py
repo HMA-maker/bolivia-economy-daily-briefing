@@ -36,7 +36,7 @@ def fetch_exa_news(api_key):
             "x-api-key": api_key
         }
         payload = {
-            "query": "Noticias económicas Bolivia reservas BCB escasez de dólares inflación",
+            "query": "Noticias económicas Bolivia reservas escasez de dólares inflación site:bcb.gob.bo",
             "numResults": 5,
             "useAutoprompt": True,
             "contents": {
@@ -71,6 +71,31 @@ def fetch_fmp_data(api_key):
         print(f"[-] Error en FMP: {e}")
         return f"Error obteniendo cotizaciones de FMP: {e}"
 
+def fetch_binance_p2p_bob():
+    print("[*] Obteniendo tipo de cambio paralelo (USDT/BOB) en tiempo real desde Binance P2P...")
+    try:
+        url = "https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search"
+        headers = {"Content-Type": "application/json"}
+        payload = {
+            "page": 1,
+            "rows": 5,
+            "payTypes": [],
+            "asset": "USDT",
+            "tradeType": "SELL", # Sell to get the price users are paying for USDT
+            "fiat": "BOB",
+            "publisherType": None
+        }
+        response = requests.post(url, json=payload, headers=headers, timeout=15)
+        response.raise_for_status()
+        data = response.json()
+        if data.get("data") and len(data["data"]) > 0:
+            best_price = data["data"][0]["adv"]["price"]
+            return f"{best_price} BOB/USDT"
+        return "No se pudo obtener el precio en Binance P2P."
+    except Exception as e:
+        print(f"[-] Error en Binance P2P: {e}")
+        return "No disponible (Error de conexión Binance P2P)"
+
 def generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str, fecha_iso):
     """
     Investiga con Google Search y genera el análisis macroeconómico estructurado
@@ -84,20 +109,25 @@ def generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str,
     
     exa_context = fetch_exa_news(exa_api_key)
     fmp_context = fetch_fmp_data(fmp_api_key)
+    binance_p2p_rate = fetch_binance_p2p_bob()
     
     prompt = f"""
 Actúas como un Director Financiero (CFO), Economista Senior y Consultor Financiero de Consultora Maldonado, especializado en el sistema financiero, cambiario y fiscal de Bolivia.
 Fecha actual de análisis: {fecha_str} ({fecha_iso}).
 
-DATOS EXTRAÍDOS EN TIEMPO REAL:
---- NOTICIAS EXA ---
+DATOS EXTRAÍDOS EN TIEMPO REAL (Fuentes Estrictas - Prohibido Alucinar):
+--- BINANCE P2P (MERCADO PARALELO) ---
+Cotización actual USDT/BOB: {binance_p2p_rate}
+
+--- NOTICIAS EXA Y BCB OFICIAL ---
 {exa_context}
 
 --- COTIZACIONES FMP (Contexto Global) ---
 {fmp_context}
 ----------------------------------
 
-Tu objetivo es analizar rigurosamente estos datos y las cifras económicas de las últimas 24 a 48 horas en Bolivia (BCB, INE, ASFI, tipo de cambio paralelo / USDT, bonos soberanos, inflación, balanza comercial) y generar una respuesta con DOS PARTES:
+Tu objetivo es analizar rigurosamente estos datos y generar una respuesta con DOS PARTES. REGLA ESTRICTA: El tipo de cambio oficial extráelo de las noticias del BCB (o asume el variable actual). El tipo de cambio paralelo DEBE ser EXACTAMENTE el valor de Binance P2P ({binance_p2p_rate}). Calcula la brecha matemática. Si la brecha > 50%, el riesgo DEBE ser RIESGO ALTO o CRÍTICO.
+
 
 PARTE 1: Un bloque JSON estrictamente válido encerrado entre ```json y ``` con los siguientes campos y métricas cuantitativas exactas:
 ```json

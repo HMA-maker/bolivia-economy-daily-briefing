@@ -161,10 +161,10 @@ def generate_email_hook_html(data, image_url, web_report_url):
                         {colors['label']}
                       </span>
                       <p style="margin: 10px 0 6px 0; font-size: 14px; line-height: 1.5; color: #1e293b;">
-                        <strong>🚨 Alerta Central:</strong> {alerta_principal}
+                        <strong>Alerta Central:</strong> {alerta_principal}
                       </p>
                       <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2d2d2d;">
-                        <strong>🎯 Acción Sugerida:</strong> {accion_recomendada}
+                        <strong>Acción Sugerida:</strong> {accion_recomendada}
                       </p>
                     </td>
                   </tr>
@@ -173,13 +173,13 @@ def generate_email_hook_html(data, image_url, web_report_url):
 
               <!-- 2. TABLERO DE INDICADORES CLAVE (HTML NATIVO) -->
               <h2 style="font-size: 16px; color: #2d2d2d; margin: 0 0 14px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">
-                📊 Tablero de Indicadores Clave
+                TABLERO DE INDICADORES CLAVE
               </h2>
 
               <!-- Bloque 1: RIN y Divisas -->
               <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; border-left: 4px solid #E76F2D;">
                 <div style="font-size: 14px; font-weight: bold; color: #E76F2D; margin-bottom: 4px;">
-                  💰 1. Reservas Internacionales & Divisas
+                  1. Reservas Internacionales & Divisas
                 </div>
                 <div style="font-size: 13px; color: #334155; line-height: 1.5;">
                   {rin_txt}
@@ -195,7 +195,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
                   <!-- Bloque 2: Comercio Exterior -->
                   <td width="48%" valign="top" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; border-left: 4px solid #0d3b66;">
                     <div style="font-size: 13px; font-weight: bold; color: #0d3b66; margin-bottom: 4px;">
-                      🚢 2. Comercio Exterior
+                      2. Comercio Exterior
                     </div>
                     <div style="font-size: 12px; color: #334155; line-height: 1.4;">
                       {comercio_txt}
@@ -205,7 +205,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
                   <!-- Bloque 3: Inflación y Banca -->
                   <td width="48%" valign="top" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; border-left: 4px solid #059669;">
                     <div style="font-size: 13px; font-weight: bold; color: #059669; margin-bottom: 4px;">
-                      🏦 3. Inflación y Banca
+                      3. Inflación y Banca
                     </div>
                     <div style="font-size: 12px; color: #334155; line-height: 1.4;">
                       {banca_txt}
@@ -214,26 +214,29 @@ def generate_email_hook_html(data, image_url, web_report_url):
                 </tr>
               </table>
 
-              <!-- 3. LLAMADA A LA ACCIÓN (BULLETPROOF BUTTON ALTO CONTRASTE) -->
-              <div style="text-align: center; margin: 28px 0 20px 0;">
-                <!--[if mso]>
-                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{web_report_url}" style="height:50px;v-text-anchor:middle;width:300px;" arcsize="16%" stroke="f" fillcolor="#E76F2D">
-                  <w:anchorlock/>
-                  <center>
-                <![endif]-->
-                    <a href="{web_report_url}" target="_blank" style="background-color:#E76F2D;border-radius:8px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:15px;font-weight:bold;line-height:50px;text-align:center;text-decoration:none;width:300px;-webkit-text-size-adjust:none;">VER INFORME COMPLETO EN LA WEB ↗</a>
-                <!--[if mso]>
-                  </center>
-                </v:roundrect>
-                <![endif]-->
-                <p style="font-size: 12px; color: #64748b; margin: 15px 0 0 0;">
+              <!-- 3. LLAMADA A LA ACCIÓN (TABLE-BASED CTA ALTO CONTRASTE) -->
+              <div style="margin: 28px 0 20px 0;">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="center">
+                      <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="center" style="border-radius: 8px; background-color: #E76F2D;">
+                            <a href="{web_report_url}" target="_blank" style="font-size: 15px; font-family: sans-serif; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 16px 32px; border: 1px solid #E76F2D; display: inline-block; font-weight: bold; text-transform: uppercase;">VER INFORME COMPLETO EN LA WEB &rarr;</a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <p style="font-size: 12px; color: #64748b; margin: 15px 0 0 0; text-align: center;">
                   Incluye desglose de Bonos Soberanos, Finanzas Públicas e historial interactivo.
                 </p>
               </div>
 
               <!-- 4. FUENTES CONSULTADAS -->
               <div style="border-top: 1px solid #e2e8f0; padding-top: 14px; margin-top: 20px; font-size: 11px; color: #64748b; line-height: 1.5;">
-                <strong>📚 Fuentes de Consulta:</strong> Banco Central de Bolivia (BCB), Instituto Nacional de Estadística (INE), Autoridad de Supervisión del Sistema Financiero (ASFI), MEFP, ASOBAN e IBCE.
+                <strong>Fuentes de Consulta:</strong> Banco Central de Bolivia (BCB), Instituto Nacional de Estadística (INE), Autoridad de Supervisión del Sistema Financiero (ASFI), MEFP, ASOBAN e IBCE.
               </div>
 
             </td>
@@ -832,7 +835,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         <span style="font-size: 12.5px; color: #64748b;">Actualizado a las 07:00 AM (BOT)</span>
       </div>
       <div class="alert-body">
-        <p style="margin-bottom: 8px;"><strong>🚨 Alerta Central:</strong> {alerta_principal}</p>
+        <p style="margin-bottom: 8px;"><strong>Alerta Central:</strong> {alerta_principal}</p>
         <p><strong>🎯 Recomendación Directiva:</strong> {accion_recomendada}</p>
       </div>
     </section>
