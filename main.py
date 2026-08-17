@@ -46,6 +46,7 @@ PARTE 1: Un bloque JSON estrictamente válido encerrado entre ```json y ``` con 
 {{
   "fecha": "{fecha_str}",
   "fecha_iso": "{fecha_iso}",
+  "preheader": "Resumen impactante en máx. 100 caracteres sobre la alerta central (ej. Brecha cambiaria excede 80% y se agrava escasez...)",
   "riesgo_general": {{
     "nivel": "Alto", // "Crítico" | "Alto" | "Moderado"
     "color": "amber", // "red" | "amber" | "green"
@@ -198,6 +199,7 @@ Genera ambas partes con datos cuantitativos contrastados y actualizados.
         data_dict = {
             "fecha": fecha_str,
             "fecha_iso": fecha_iso,
+            "preheader": "Presión sobre liquidez en divisas y brecha en mercado paralelo por encima del 50%.",
             "riesgo_general": {
                 "nivel": "Alto",
                 "color": "amber",

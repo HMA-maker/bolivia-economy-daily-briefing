@@ -90,6 +90,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
     con CSS Inline 100% compatible con clientes de correo móviles y de escritorio.
     """
     fecha = data.get("fecha", "")
+    preheader = data.get("preheader", "Resumen Ejecutivo de Macroeconomía Boliviana.")
     riesgo = data.get("riesgo_general", {})
     nivel_riesgo = riesgo.get("nivel", "Alto")
     colors = get_risk_colors(nivel_riesgo)
@@ -97,30 +98,17 @@ def generate_email_hook_html(data, image_url, web_report_url):
     accion_recomendada = riesgo.get("accion_recomendada", "")
     
     kpis = data.get("kpis", {})
-    rin_total = kpis.get("rin_total_usd", "$1,980 M")
-    rin_oro = kpis.get("rin_oro_usd", "$1,820 M")
-    rin_divisas = kpis.get("rin_divisas_usd", "$160 M")
     tc_oficial = kpis.get("tipo_cambio_oficial", "6.86 / 6.96")
     tc_paralelo = kpis.get("tipo_cambio_paralelo", "11.00 BOB/USDT")
-    brecha = kpis.get("brecha_cambiaria_pct", "+58.0%")
-    inflacion_m = kpis.get("inflacion_mensual", "0.65%")
-    inflacion_a = kpis.get("inflacion_acumulada", "6.8%")
-    balanza = kpis.get("balanza_comercial", "-$320 M")
-
+    
     bloques = data.get("bloques_resumidos", {})
-    rin_txt = bloques.get("rin_divisas", f"RIN en <strong>{rin_total}</strong> (Oro {rin_oro} vs. Divisas líquidas {rin_divisas}). Brecha cambiaria en <strong>{brecha}</strong>.")
-    comercio_txt = bloques.get("comercio_exterior", f"Balanza comercial en <strong>{balanza}</strong>. Importación de combustibles absorbe la mayor demanda de divisas.")
-    banca_txt = bloques.get("inflacion_banca", f"Inflación mensual de <strong>{inflacion_m}</strong> (Acumulada: <strong>{inflacion_a}</strong>). Depósitos en bolivianos estables.")
+    rin_txt = bloques.get("rin_divisas", "RIN estables concentradas en oro.")
+    comercio_txt = bloques.get("comercio_exterior", "Déficit comercial persistente.")
+    banca_txt = bloques.get("inflacion_banca", "Inflación con presión en importados.")
 
-    image_block = ""
-    if image_url:
-        image_block = f"""
-        <div style="margin-bottom: 20px; text-align: center; border-radius: 8px; overflow: hidden;">
-            <a href="{web_report_url}" target="_blank" style="text-decoration: none;">
-                <img src="{image_url}" alt="Infografía Macroeconomía Bolivia - Consultora Maldonado" style="width: 100%; max-width: 650px; height: auto; display: block; margin: 0 auto; border-radius: 8px; border: 1px solid #e2e8f0;" />
-            </a>
-        </div>
-        """
+    # URL base para activos (usando el web_report_url si viene limpio, o asumiendo el dominio)
+    base_assets_url = "https://informe.consultoramaldonado.com"
+    logo_url = f"{base_assets_url}/assets/logo.png"
 
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -130,20 +118,27 @@ def generate_email_hook_html(data, image_url, web_report_url):
   <title>🇧🇴 Resumen Ejecutivo: Macroeconomía de Bolivia — {fecha}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
+  
+  <!-- PREHEADER OCULTO -->
+  <div style="display:none; font-size:1px; color:#333333; line-height:1px; max-height:0px; max-width:0px; opacity:0; overflow:hidden;">
+    {preheader}
+  </div>
+
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: #f1f5f9; padding: 20px 0;">
     <tr>
       <td align="center">
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width: 650px; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08); border: 1px solid #e2e8f0;">
           
-          <!-- CABECERA INSTITUCIONAL -->
+          <!-- CABECERA INSTITUCIONAL (FONDO BLANCO, TEXTO OSCURO, DETALLES NARANJAS) -->
           <tr>
-            <td style="background: linear-gradient(135deg, #091a2b 0%, #0d3b66 100%); padding: 24px 28px; text-align: left;">
+            <td style="background-color: #ffffff; padding: 24px 28px; text-align: left; border-bottom: 3px solid #E76F2D;">
               <table width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td>
-                    <span style="background-color: rgba(56, 189, 248, 0.18); color: #38bdf8; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase;">Consultora Maldonado</span>
-                    <h1 style="color: #ffffff; margin: 10px 0 4px 0; font-size: 21px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.3;">🇧🇴 Resumen Ejecutivo: Macroeconomía de Bolivia</h1>
-                    <p style="color: #94a3b8; margin: 0; font-size: 13px;">Fecha de análisis: {fecha}</p>
+                    <!-- LOGO PLACEHOLDER: Sube tu logo a la carpeta assets/logo.png -->
+                    <img src="{logo_url}" alt="Consultora Maldonado" style="max-height: 50px; margin-bottom: 15px; display: block;" />
+                    <h1 style="color: #2d2d2d; margin: 0 0 4px 0; font-size: 21px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.3;">🇧🇴 Resumen Ejecutivo: Macroeconomía de Bolivia</h1>
+                    <p style="color: #64748b; margin: 0; font-size: 13px;">Fecha de análisis: {fecha}</p>
                   </td>
                 </tr>
               </table>
@@ -153,8 +148,6 @@ def generate_email_hook_html(data, image_url, web_report_url):
           <!-- CUERPO PRINCIPAL -->
           <tr>
             <td style="padding: 24px 28px;">
-
-              {image_block}
 
               <!-- 1. MATRIZ DE ALERTAS (TL;DR) -->
               <div style="background-color: {colors['bg']}; border-left: 4px solid {colors['border']}; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
@@ -167,7 +160,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
                       <p style="margin: 10px 0 6px 0; font-size: 14px; line-height: 1.5; color: #1e293b;">
                         <strong>🚨 Alerta Central:</strong> {alerta_principal}
                       </p>
-                      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #0d3b66;">
+                      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #2d2d2d;">
                         <strong>🎯 Acción Sugerida:</strong> {accion_recomendada}
                       </p>
                     </td>
@@ -175,14 +168,14 @@ def generate_email_hook_html(data, image_url, web_report_url):
                 </table>
               </div>
 
-              <!-- 2. TABLERO DE 3 BLOQUES CLAVE (SNAPSHOT) -->
-              <h2 style="font-size: 16px; color: #0d3b66; margin: 0 0 14px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">
+              <!-- 2. TABLERO DE INDICADORES CLAVE (HTML NATIVO) -->
+              <h2 style="font-size: 16px; color: #2d2d2d; margin: 0 0 14px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px;">
                 📊 Tablero de Indicadores Clave
               </h2>
 
               <!-- Bloque 1: RIN y Divisas -->
-              <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px;">
-                <div style="font-size: 14px; font-weight: bold; color: #0284c7; margin-bottom: 4px;">
+              <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; border-left: 4px solid #E76F2D;">
+                <div style="font-size: 14px; font-weight: bold; color: #E76F2D; margin-bottom: 4px;">
                   💰 1. Reservas Internacionales & Divisas
                 </div>
                 <div style="font-size: 13px; color: #334155; line-height: 1.5;">
@@ -193,32 +186,37 @@ def generate_email_hook_html(data, image_url, web_report_url):
                 </div>
               </div>
 
-              <!-- Bloque 2: Comercio Exterior -->
-              <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px;">
-                <div style="font-size: 14px; font-weight: bold; color: #d97706; margin-bottom: 4px;">
-                  🚢 2. Comercio Exterior y Balanza
-                </div>
-                <div style="font-size: 13px; color: #334155; line-height: 1.5;">
-                  {comercio_txt}
-                </div>
-              </div>
+              <!-- Diseño a dos columnas para Comercio e Inflación -->
+              <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 20px;">
+                <tr>
+                  <!-- Bloque 2: Comercio Exterior -->
+                  <td width="48%" valign="top" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; border-left: 4px solid #0d3b66;">
+                    <div style="font-size: 13px; font-weight: bold; color: #0d3b66; margin-bottom: 4px;">
+                      🚢 2. Comercio Exterior
+                    </div>
+                    <div style="font-size: 12px; color: #334155; line-height: 1.4;">
+                      {comercio_txt}
+                    </div>
+                  </td>
+                  <td width="4%"></td> <!-- Espaciador -->
+                  <!-- Bloque 3: Inflación y Banca -->
+                  <td width="48%" valign="top" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; border-left: 4px solid #059669;">
+                    <div style="font-size: 13px; font-weight: bold; color: #059669; margin-bottom: 4px;">
+                      🏦 3. Inflación y Banca
+                    </div>
+                    <div style="font-size: 12px; color: #334155; line-height: 1.4;">
+                      {banca_txt}
+                    </div>
+                  </td>
+                </tr>
+              </table>
 
-              <!-- Bloque 3: Inflación y Banca -->
-              <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px;">
-                <div style="font-size: 14px; font-weight: bold; color: #059669; margin-bottom: 4px;">
-                  🏦 3. Inflación y Sistema Financiero
-                </div>
-                <div style="font-size: 13px; color: #334155; line-height: 1.5;">
-                  {banca_txt}
-                </div>
-              </div>
-
-              <!-- 3. LLAMADA A LA ACCIÓN (BOTÓN PRINCIPAL) -->
+              <!-- 3. LLAMADA A LA ACCIÓN (BOTÓN PRINCIPAL ALTO CONTRASTE) -->
               <div style="text-align: center; margin: 28px 0 20px 0;">
-                <a href="{web_report_url}" target="_blank" style="background: linear-gradient(135deg, #0d3b66 0%, #1e40af 100%); color: #ffffff; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 14px rgba(13, 59, 102, 0.3);">
-                  Ver Informe Completo y Análisis de Deuda en la Web ↗
+                <a href="{web_report_url}" target="_blank" style="background-color: #E76F2D; color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block; box-shadow: 0 4px 14px rgba(231, 111, 45, 0.4); text-transform: uppercase; letter-spacing: 0.5px;">
+                  Ver Informe Completo en la Web ↗
                 </a>
-                <p style="font-size: 12px; color: #64748b; margin: 8px 0 0 0;">
+                <p style="font-size: 12px; color: #64748b; margin: 10px 0 0 0;">
                   Incluye desglose de Bonos Soberanos, Finanzas Públicas e historial interactivo.
                 </p>
               </div>
@@ -238,7 +236,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
                 <strong>Descargo de Responsabilidad:</strong> La presente información no constituye asesoría profesional, legal, contable ni recomendación de inversión. Es un análisis informativo elaborado por Consultora Maldonado.
               </p>
               <p style="font-size: 11px; color: #64748b; margin: 0;">
-                © {fecha.split()[-1] if len(fecha.split()) > 0 else '2026'} Consultora Maldonado • <a href="https://www.consultoramaldonado.com" style="color: #0284c7; text-decoration: none;">www.consultoramaldonado.com</a>
+                © {fecha.split()[-1] if len(fecha.split()) > 0 else '2026'} Consultora Maldonado • <a href="https://www.consultoramaldonado.com" style="color: #E76F2D; text-decoration: none; font-weight: bold;">www.consultoramaldonado.com</a>
               </p>
             </td>
           </tr>
