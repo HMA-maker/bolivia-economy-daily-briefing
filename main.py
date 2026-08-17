@@ -36,7 +36,7 @@ def fetch_exa_news(api_key):
             "x-api-key": api_key
         }
         payload = {
-            "query": "Noticias económicas Bolivia reservas escasez de dólares inflación site:bcb.gob.bo",
+            "query": "Noticias económicas Bolivia reservas inflación tipo de cambio oficial ponderado flexible bcb",
             "numResults": 5,
             "useAutoprompt": True,
             "contents": {
@@ -126,7 +126,7 @@ Cotización actual USDT/BOB: {binance_p2p_rate}
 {fmp_context}
 ----------------------------------
 
-Tu objetivo es analizar rigurosamente estos datos y generar una respuesta con DOS PARTES. REGLA ESTRICTA: El tipo de cambio oficial extráelo de las noticias del BCB (o asume el variable actual). El tipo de cambio paralelo DEBE ser EXACTAMENTE el valor de Binance P2P ({binance_p2p_rate}). Calcula la brecha matemática. Si la brecha > 50%, el riesgo DEBE ser RIESGO ALTO o CRÍTICO.
+Tu objetivo es analizar rigurosamente estos datos y generar una respuesta con DOS PARTES. REGLA ESTRICTA ANTI-ALUCINACIÓN: Bolivia implementó un régimen cambiario flexible; el tipo de cambio oficial hoy ronda los 11.58 BOB/USD. ¡QUEDA ESTRICTAMENTE PROHIBIDO usar o mencionar el tipo de cambio histórico de 6.86 / 6.96! Extrae el tipo de cambio oficial real actual de las noticias provistas. El tipo de cambio paralelo DEBE ser EXACTAMENTE el valor de Binance P2P ({binance_p2p_rate}). Calcula la brecha matemática entre ambos.
 
 
 PARTE 1: Un bloque JSON estrictamente válido encerrado entre ```json y ``` con los siguientes campos y métricas cuantitativas exactas:
@@ -529,6 +529,7 @@ def main():
     # 4. Generar el Correo Electrónico "Gancho" con CTA a la Web
     image_web_url = f"{site_base_url}/assets/infografia-latest.png"
     email_html = generate_email_hook_html(data_dict, image_web_url, site_base_url)
+    email_html = email_html.replace('{{nombre_cliente | default: email}}', recipient_email)
 
     # 5. Publicar respaldo en Notion y Enviar por Gmail mediante Composio
     publish_and_send_briefing(
