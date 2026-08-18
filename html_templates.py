@@ -303,11 +303,18 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
       <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
         <input type="text" name="name" placeholder="Nombre completo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="email" placeholder="Correo corporativo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="tel" name="phone" placeholder="Teléfono / WhatsApp" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" style="background: var(--navy-light); color: #ffffff; border: none; padding: 14px; border-radius: 8px; font-weight: 700; font-family: var(--font-heading); font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px;">Solicitar Asesoría</button>
       </form>
     </div>
   </div>
 
+
+  <!-- STICKY FOOTER CTA -->
+  <div class="sticky-cta">
+    <p>¿Requiere análisis detallado para su junta directiva?</p>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+  </div>
 </body>
 </html>
 """
@@ -606,7 +613,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     /* DASHBOARD KPIS GRID */
     .kpi-grid {{
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 18px;
       margin-bottom: 32px;
     }}
@@ -847,6 +854,42 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         display: none;
       }}
     }}
+
+    /* STICKY FOOTER CTA */
+    .sticky-cta {{
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--navy-light);
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    }}
+    .sticky-cta p {{
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+    }}
+    .sticky-cta-btn {{
+      background: var(--accent-gold);
+      color: var(--primary-navy);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    }}
+    @media (max-width: 600px) {{
+      .sticky-cta {{ flex-direction: column; gap: 8px; text-align: center; }}
+    }}
   </style>
 </head>
 <body>
@@ -941,7 +984,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Ingresa tu correo ahora para recibir este reporte en tu bandeja antes de la apertura del mercado.</p>
       <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
-        <input type="email" placeholder="tu.correo@empresa.com" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input id="leadEmailInput" name="lead_email" type="email" placeholder="tu.correo@empresa.com" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
@@ -1063,11 +1106,18 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
         <input type="text" name="name" placeholder="Nombre completo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="email" placeholder="Correo corporativo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="tel" name="phone" placeholder="Teléfono / WhatsApp" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" style="background: var(--navy-light); color: #ffffff; border: none; padding: 14px; border-radius: 8px; font-weight: 700; font-family: var(--font-heading); font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px;">Solicitar Asesoría</button>
       </form>
     </div>
   </div>
 
+
+  <!-- STICKY FOOTER CTA -->
+  <div class="sticky-cta">
+    <p>¿Requiere análisis detallado para su junta directiva?</p>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+  </div>
 </body>
 </html>
 """
