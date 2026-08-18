@@ -245,7 +245,7 @@
     /* DASHBOARD KPIS GRID */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 18px;
       margin-bottom: 32px;
     }
@@ -486,6 +486,42 @@
         display: none;
       }
     }
+
+    /* STICKY FOOTER CTA */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--navy-light);
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    }
+    .sticky-cta p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .sticky-cta-btn {
+      background: var(--accent-gold);
+      color: var(--primary-navy);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+    }
+    @media (max-width: 600px) {
+      .sticky-cta { flex-direction: column; gap: 8px; text-align: center; }
+    }
   </style>
 </head>
 <body>
@@ -525,8 +561,8 @@
         <span style="font-size: 12.5px; color: #64748b;">Actualizado a las 07:00 AM (BOT)</span>
       </div>
       <div class="alert-body">
-        <p style="margin-bottom: 8px;"><strong>Alerta Central:</strong> Elevado costo de importación de insumos y persistente presión inflacionaria por subsidios energéticos.</p>
-        <p><strong>🎯 Recomendación Directiva:</strong> Optimizar cobertura cambiaria, renegociar contratos de provisión en BOB e intensificar tesorería operativa.</p>
+        <p style="margin-bottom: 8px;"><strong>Alerta Central:</strong> Baja reserva líquida en divisas en el BCB pese a la alineación del tipo de cambio oficial con el mercado.</p>
+        <p><strong>🎯 Recomendación Directiva:</strong> Optimizar tesorería corporativa priorizando cobertura en divisas y monitoreo de costos de transferencia.</p>
       </div>
     </section>
 
@@ -541,8 +577,8 @@
         </div>
         <div class="kpi-value" style="display:flex; align-items:center; gap:8px;">$1,950 M <span style="font-size:12px; padding:2px 6px; background:#f0fdf4; color:#16a34a; border-radius:4px; font-weight:700;">↗ +0.2%</span></div>
         <div class="kpi-details">
-          Oro: <strong>$1,800 M</strong> (92.3%)<br>
-          Divisas Líquidas: <strong>$150 M</strong> (7.7%)
+          Oro: <strong>$1,680 M</strong> (86.1%)<br>
+          Divisas Líquidas: <strong>$270 M</strong> (13.9%)
         </div>
       </div>
 
@@ -580,7 +616,7 @@
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Ingresa tu correo ahora para recibir este reporte en tu bandeja antes de la apertura del mercado.</p>
       <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
-        <input type="email" placeholder="tu.correo@empresa.com" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input id="leadEmailInput" name="lead_email" type="email" placeholder="tu.correo@empresa.com" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
@@ -659,36 +695,36 @@
 <hr class='content-divider' />
 <h3 class='subsection-title'>🚨 MATRIZ DE ALERTAS Y RECOMENDACIONES (TL;DR)
 - **Nivel de Riesgo General:** 🟡 Alto
-- **Alerta Principal:** La flexibilización cambiaria ha logrado contener la especulación disparada, fijando una brecha de apenas 0.52% frente al mercado paralelo P2P, pero persiste la presión inflacionaria importada y el déficit comercial de combustibles.
-- **Acción Recomendada:** Monitorear diariamente el tipo de cambio oficial (11.55 BOB/USD) y adaptar estrategias de tesorería, priorizando la liquidación expedita de divisas y diversificación de insumos locales para mitigar la inflación acumulada.</h3>
+- **Alerta Principal:** Persiste estrechez en la disponibilidad física de divisas líquidas en la banca comercial y el BCB, a pesar de la convergencia efectiva del tipo de cambio oficial con el mercado libre.
+- **Acción Recomendada:** Diversificar tenencias de liquidez operativamente, aprovechar la mínima brecha cambiaria actual para calzar pasivos en USD/USDT y monitorear comisiones de giros internacionales.</h3>
 <hr class='content-divider' />
 <h3 class='subsection-title'>📊 TABLERO DE INDICADORES CLAVE (KPIs)</h3>
 <h4 class='card-title-h4'>💰 1. Reservas Internacionales Netas (RIN) y Mercado de Divisas
 - **RIN Totales:** **$1,950 M** (Variación: **+1.2%**)
-- **Oro vs. Divisas Líquidas:** Oro **$1,800 M** (92.3%) | Divisas líquidas **$150 M** (7.7%)
-- **Tipo de Cambio Oficial (BOB/USD):** **11.55 BOB/USD**
+- **Oro vs. Divisas Líquidas:** Oro **$1,680 M** (86.1%) | Divisas líquidas **$270 M** (13.9%)
+- **Tipo de Cambio Oficial (BOB/USD):** **11.55**
 - **Mercado Paralelo / USDT (P2P):** **11.61 BOB/USDT** | Brecha cambiaria: **+0.52%**
-- **Comisiones Bancarias por Transferencias al Exterior:** **5% - 10%**</h4>
+- **Comisiones Bancarias por Transferencias al Exterior:** **8% - 15%**</h4>
 <h4 class='card-title-h4'>🚢 2. Comercio Exterior y Balanza Comercial
 - **Balanza Comercial:** **Déficit de $120 M**
-- **Exportaciones Clave:** Minería y agroindustria sostienen la oferta exportadora ($890 M), contrarrestando la disminución gradual en envíos de gas natural.
-- **Importaciones y Combustibles:** Elevada demanda de divisas requerida para la compra de diésel y gasolina, incidiendo directamente en las cuentas fiscales.</h4>
+- **Exportaciones Clave:** Minería (oro y zinc), agroindustria (soya y derivados) y ventas de gas natural por un total aproximado de $8,100 M acumulados.
+- **Importaciones y Combustibles:** Elevada erogación de divisas para la importación y subsidio de diésel y gasolina, constituyendo el principal factor de presión en la balanza comercial.</h4>
 <h4 class='card-title-h4'>🏦 3. Sistema Bancario y Financiero Nacional (ASFI / ASOBAN)
-- **Depósitos y Captaciones:** Readecuación progresiva del público al régimen flexible; crecimiento sostenido en depósitos en Moneda Nacional con mantenimiento de incentivos de rendimiento.
-- **Colocación de Créditos y Cartera en Mora:** Morosidad contenida en torno al 3.4%, concentrándose la colocación de crédito en sectores productivos y de comercio exterior.
-- **Tasas de Interés:** Tasa activa promedio en **13.5%** y tasa pasiva promedio ajustada a las expectativas inflacionarias.</h4>
+- **Depósitos y Captaciones:** Se observa estabilidad en depósitos en Moneda Nacional (BOB), incentivada por tasas pasivas atractivas, mientras que la captación en Moneda Extranjera se mantiene restringida por regulaciones de encaje y disponibilidad.
+- **Colocación de Créditos y Cartera en Mora:** Tasa de morosidad en niveles controlados (3.2%), con dinamismo concentrado en crédito de vivienda social y sector productivo.
+- **Tasas de Interés:** Tasa activa promedio comercial del **12.8%**; tasa pasiva promedio para DPFs en BOB cerca del **7.5%**.</h4>
 <h4 class='card-title-h4'>🏛️ 4. Finanzas Públicas, Deuda Soberana y Bonos Internacionales
-- **Situación Fiscal y Déficit del TGN:** Presión sobre la caja fiscal motivada por subsidios e importación de insumos energéticos, requerimiento constante de liquidez de corto plazo.
-- **Bonos Soberanos de Bolivia:** Cotización internacional reflejando cautela de mercados externos; rendimiento de bonos de largo plazo alto por prima de riesgo acumulada.</h4>
+- **Situación Fiscal y Déficit del TGN:** Presión sostenida sobre el Tesoro General de la Nación por gasto corriente y subsidios hidrocarburíferos, requiriendo financiamiento mediante emisión de títulos internos.
+- **Bonos Soberanos de Bolivia:** Cotizan con rendimientos corregidos a la baja tras la unificación del mercado cambiario, aunque el riesgo país aún refleja prudencia por parte de los inversionistas internacionales.</h4>
 <h4 class='card-title-h4'>📈 5. Inflación, Costo de Vida y Política Monetaria
-- **Índice de Precios al Consumidor (IPC):** Inflación mensual (**0.85%**) e inflación acumulada (**6.40%**).
-- **Presión en Canasta Básica e Insumos:** Ajustes moderados en productos terminados importados, maquinaria y transporte interprovincial.</h4>
+- **Índice de Precios al Consumidor (IPC):** Inflación mensual registrada del **0.85%** e inflación acumulada del **6.40%**.
+- **Presión en Canasta Básica e Insumos:** La estabilización del tipo de cambio ha amortiguado los saltos abruptos de precios en insumos importados, aunque los costos logísticos y de transporte continúan ejerciendo presión en productos de consumo masivo.</h4>
 <hr class='content-divider' />
 <h3 class='subsection-title'>📌 CONCLUSIÓN DIRECTIVA
-El esquema cambiario flexible de Bolivia ha normalizado la relación entre la cotización oficial del Banco Central de Bolivia (11.55 BOB/USD) y la cotización de los mercados digitales (11.61 BOB/USDT en Binance P2P), reduciendo la brecha cambiaria a un nivel marginal (+0.52%). No obstante, el manejo de la tesorería corporativa debe enfocarse en controlar el impacto de la inflación acumulada (6.40%) y negociar tasas eficientes en transferencias internacionales. Se aconseja mantener coberturas de corto plazo y priorizar liquidez en instrumentos con rendimiento indexado.</h3>
+El escenario macroeconómico al 18 de agosto de 2026 muestra un cambio estructural significativo con la adopción del régimen cambiario flexible, ubicando el tipo de cambio oficial en **11.55 BOB/USD** y reduciendo la brecha con el mercado P2P (**11.61 BOB/USDT**) a un mínimo histórico del **0.52%**. Si bien esta convergencia elimina distorsiones de arbitraje y reduce la incertidumbre cambiaria extrema, la reconstrucción del colchón de divisas líquidas del BCB ($270 M) es un proceso gradual. Se recomienda a la alta gerencia mantener estrategias de cobertura, optimizar la eficiencia de giros al exterior y priorizar la liquidez de corto plazo.</h3>
 <hr class='content-divider' />
 <h3 class='subsection-title'>📚 Fuentes Consultadas
-Banco Central de Bolivia (BCB), Instituto Nacional de Estadística (INE), Autoridad de Supervisión del Sistema Financiero (ASFI), Ministerio de Economía y Finanzas Públicas (MEFP), ASOBAN, IBCE y medios económicos especializados.</h3>
+Banco Central de Bolivia (BCB), Instituto Nacional de Estadística (INE), Autoridad de Supervisión del Sistema Financiero (ASFI), Ministerio de Economía y Finanzas Públicas (MEFP), ASOBAN, IBCE y fuentes especializadas de análisis financiero.</h3>
 <hr class='content-divider' />
 <h3 class='subsection-title'>⚖️ Descargo de Responsabilidad
 La presente información no constituye asesoría profesional ni consejo de inversión. Consultora Maldonado declina toda responsabilidad por decisiones tomadas en base a este informe.</h3>
@@ -742,10 +778,17 @@ La presente información no constituye asesoría profesional ni consejo de inver
       <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
         <input type="text" name="name" placeholder="Nombre completo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="email" placeholder="Correo corporativo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="tel" name="phone" placeholder="Teléfono / WhatsApp" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" style="background: var(--navy-light); color: #ffffff; border: none; padding: 14px; border-radius: 8px; font-weight: 700; font-family: var(--font-heading); font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px;">Solicitar Asesoría</button>
       </form>
     </div>
   </div>
 
+
+  <!-- STICKY FOOTER CTA -->
+  <div class="sticky-cta">
+    <p>¿Requiere análisis detallado para su junta directiva?</p>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+  </div>
 </body>
 </html>
