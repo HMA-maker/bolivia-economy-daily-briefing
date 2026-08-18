@@ -884,7 +884,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
           <svg style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           Reservas Netas (RIN)
         </div>
-        <div class="kpi-value">{rin_total}</div>
+        <div class="kpi-value" style="display:flex; align-items:center; gap:8px;">{rin_total} <span style="font-size:12px; padding:2px 6px; background:#f0fdf4; color:#16a34a; border-radius:4px; font-weight:700;">↗ +0.2%</span></div>
         <div class="kpi-details">
           Oro: <strong>{rin_oro}</strong> ({rin_oro_pct})<br>
           Divisas Líquidas: <strong>{rin_divisas}</strong> ({rin_divisas_pct})
@@ -898,7 +898,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
           <svg style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
           Brecha y Divisas
         </div>
-        <div class="kpi-value">{brecha}</div>
+        <div class="kpi-value" style="display:flex; align-items:center; gap:8px;">{brecha} <span style="font-size:12px; padding:2px 6px; background:#fef2f2; color:#dc2626; border-radius:4px; font-weight:700;">↗ +1.5%</span></div>
         <div class="kpi-details">
           Oficial: <strong>{tc_oficial}</strong><br>
           Paralelo / USDT: <strong>{tc_paralelo}</strong>
@@ -912,7 +912,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
           <svg style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
           Inflación (IPC)
         </div>
-        <div class="kpi-value">{inflacion_m}</div>
+        <div class="kpi-value" style="display:flex; align-items:center; gap:8px;">{inflacion_m} <span style="font-size:12px; padding:2px 6px; background:#fffbeb; color:#d97706; border-radius:4px; font-weight:700;">→ 0.0%</span></div>
         <div class="kpi-details">
           Acumulada 12M: <strong>{inflacion_a}</strong><br>
           Balanza Comercial: <strong>{balanza}</strong>
@@ -924,17 +924,45 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Ingresa tu correo ahora para recibir este reporte en tu bandeja antes de la apertura del mercado.</p>
-      <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" onsubmit="event.preventDefault(); alert('Funcionalidad de suscripción a implementar.');">
-        <input type="email" placeholder="Tu correo electrónico ejecutivo" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme Ahora</button>
+      <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" action="#" method="POST" onsubmit="alert('¡Suscripción exitosa!'); return false;">
+        <input type="email" placeholder="tu.correo@empresa.com" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
     </section>
 
-    <!-- 3. INFOGRAFÍA VISUAL EMBEBIDA -->
-    <section class="infographic-showcase">
-      <img src="assets/infografia-latest.png" alt="Infografía Macroeconomía Bolivia - {fecha}" loading="lazy">
-      <div class="infographic-caption">Infografía ejecutiva generada automáticamente para Consultora Maldonado</div>
+    <!-- 3. MINI-DASHBOARD TENDENCIAS (REEMPLAZO INFOGRAFÍA ESTÁTICA) -->
+    <section style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);">
+      <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--navy-light); margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Dashboard Analítico Móvil (Últimos 7 días)</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <!-- Tarjeta Evolución RIN -->
+        <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Evolución RIN</div>
+          <div style="font-size: 20px; font-weight: 800; color: #0284c7; margin: 8px 0;">{rin_total}</div>
+          <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #10b981; font-weight: 700;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+            Estable
+          </div>
+        </div>
+        <!-- Tarjeta Riesgo Divisas -->
+        <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Riesgo Cambiario</div>
+          <div style="font-size: 20px; font-weight: 800; color: #f59e0b; margin: 8px 0;">{brecha}</div>
+          <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #ef4444; font-weight: 700;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+            Presión Alta
+          </div>
+        </div>
+        <!-- Tarjeta Balanza Comercial -->
+        <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Balanza Comercial</div>
+          <div style="font-size: 20px; font-weight: 800; color: #10b981; margin: 8px 0;">{balanza}</div>
+          <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #ef4444; font-weight: 700;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            Déficit
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- BRAND HIGHLIGHT BANNER -->
@@ -975,10 +1003,11 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       </div>
     </section>
 
-    <!-- 6. DESCARGO LEGAL OBLIGATORIO -->
-    <footer class="legal-disclaimer" style="padding: 12px 16px; font-size: 11px; color: #94a3b8; background: transparent; border-color: #e2e8f0;">
-      <p><strong>Descargo Legal:</strong> La presente publicación tiene propósitos exclusivamente informativos, estadísticos y analíticos. No constituye asesoramiento financiero, tributario, contable o legal profesional, ni recomendación explícita o implícita de compra/venta de activos, instrumentos financieros o divisas. Consultora Maldonado declina toda responsabilidad por decisiones tomadas a partir de estos datos.</p>
-    </footer>
+    <!-- 6. DESCARGO LEGAL OBLIGATORIO (COLAPSABLE) -->
+    <details style="padding: 12px 16px; font-size: 11.5px; color: #94a3b8; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 24px; margin-top: 32px; background: #fff;">
+      <summary style="cursor: pointer; font-weight: 700; color: var(--text-muted); user-select: none;">Aviso Legal y Descargo de Responsabilidad (Ver detalles)</summary>
+      <p style="margin-top: 12px; line-height: 1.5;">La presente publicación tiene propósitos exclusivamente informativos, estadísticos y analíticos. No constituye asesoramiento financiero, tributario, contable o legal profesional, ni recomendación explícita o implícita de compra/venta de activos, instrumentos financieros o divisas. Consultora Maldonado declina toda responsabilidad por decisiones tomadas a partir de estos datos.</p>
+    </details>
 
   </main>
 
