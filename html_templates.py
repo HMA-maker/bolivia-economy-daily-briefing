@@ -920,6 +920,17 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       </div>
     </section>
 
+    <!-- LEAD MAGNET O CAPTURA DE DATOS -->
+    <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
+      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
+      <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Ingresa tu correo ahora para recibir este reporte en tu bandeja antes de la apertura del mercado.</p>
+      <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" onsubmit="event.preventDefault(); alert('Funcionalidad de suscripción a implementar.');">
+        <input type="email" placeholder="Tu correo electrónico ejecutivo" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme Ahora</button>
+      </form>
+      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
+    </section>
+
     <!-- 3. INFOGRAFÍA VISUAL EMBEBIDA -->
     <section class="infographic-showcase">
       <img src="assets/infografia-latest.png" alt="Infografía Macroeconomía Bolivia - {fecha}" loading="lazy">
@@ -937,7 +948,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
           <p style="color: #cbd5e1; font-size: 13px; margin: 0;">Más de 15 años de experiencia en inteligencia macroeconómica para la toma de decisiones.</p>
         </div>
       </div>
-      <a href="https://www.consultoramaldonado.com/contacto" style="background: var(--accent-gold); color: var(--primary-navy); padding: 10px 20px; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 14px; transition: transform 0.2s;">Consultar con un Experto</a>
+      <a href="https://www.consultoramaldonado.com/contacto" style="background: var(--accent-gold); color: var(--primary-navy); padding: 12px 24px; border-radius: 8px; font-weight: 800; text-decoration: none; font-size: 15px; transition: all 0.2s; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); text-transform: uppercase;">Consultar con un Experto</a>
     </section>
 
     <!-- 4. CUERPO DEL REPORTE COMPLETO -->
@@ -955,24 +966,13 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         </select>
       </div>
       <div style="display: flex; gap: 8px;">
-        <a class="share-btn" href="https://www.consultoramaldonado.com/contacto" style="background: var(--accent-gold); color: var(--primary-navy);">
+        <a class="share-btn" href="https://www.consultoramaldonado.com/contacto" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 800; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold);">
           💬 Obtener Análisis Profundo
         </a>
         <a class="share-btn" href="https://api.whatsapp.com/send?text={html.escape(page_title)}%20{canonical_url}" target="_blank">
           📲 Compartir
         </a>
       </div>
-    </section>
-
-    <!-- LEAD MAGNET O CAPTURA DE DATOS -->
-    <section style="background: #ffffff; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
-      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
-      <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Suscríbete sin costo a nuestro resumen ejecutivo diario por Email o WhatsApp.</p>
-      <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" onsubmit="event.preventDefault(); alert('Funcionalidad de suscripción a implementar.');">
-        <input type="email" placeholder="Tu correo electrónico ejecutivo" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme Ahora</button>
-      </form>
-      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
     </section>
 
     <!-- 6. DESCARGO LEGAL OBLIGATORIO -->
