@@ -108,6 +108,31 @@ def extract_first_name(email):
     first_name = username.replace('.', ' ').replace('_', ' ').split(' ')[0]
     return first_name.capitalize()
 
+
+def fetch_bcb_official_rate():
+    try:
+        import urllib.request
+        import ssl
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        
+        req = urllib.request.Request("https://www.bcb.gob.bo/", headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, context=ctx, timeout=10) as response:
+            html = response.read().decode('utf-8', errors='ignore')
+            
+            # Buscamos la clase exacta que envuelve el numero: <span class="bcb-tco-num">11,55</span>
+            import re
+            match = re.search(r'<span class="bcb-tco-num">\s*([0-9]+[,.][0-9]+)\s*</span>', html)
+            if match:
+                rate_str = match.group(1).replace(',', '.')
+                return rate_str
+            else:
+                return "11.55" # Fallback
+    except Exception as e:
+        print(f"Error fetching BCB rate: {e}")
+        return "11.55" # Fallback
+
 def generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str, fecha_iso):
     """
     Investiga con Google Search y genera el análisis macroeconómico estructurado
@@ -122,6 +147,8 @@ def generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str,
     exa_context = fetch_exa_news(exa_api_key)
     fmp_context = fetch_fmp_data(fmp_api_key)
     binance_p2p_rate = fetch_binance_p2p_bob()
+    bcb_official_rate = fetch_bcb_official_rate()
+    print(f'[*] Tasa oficial BCB extraída: {bcb_official_rate}')
     
     prompt = f"""
 Actúas como un Director Financiero (CFO), Economista Senior y Consultor Financiero de Consultora Maldonado, especializado en el sistema financiero, cambiario y fiscal de Bolivia.
@@ -138,7 +165,7 @@ Cotización actual USDT/BOB: {binance_p2p_rate}
 {fmp_context}
 ----------------------------------
 
-Tu objetivo es analizar rigurosamente estos datos y generar una respuesta con DOS PARTES. REGLA ESTRICTA ANTI-ALUCINACIÓN: Bolivia implementó un régimen cambiario flexible; el tipo de cambio oficial hoy ronda los 11.58 BOB/USD. ¡QUEDA ESTRICTAMENTE PROHIBIDO usar o mencionar el tipo de cambio histórico de 6.86 / 6.96! Extrae el tipo de cambio oficial real actual de las noticias provistas. El tipo de cambio paralelo DEBE ser EXACTAMENTE el valor de Binance P2P ({binance_p2p_rate}). Calcula la brecha matemática entre ambos.
+Tu objetivo es analizar rigurosamente estos datos y generar una respuesta con DOS PARTES. REGLA ESTRICTA ANTI-ALUCINACIÓN: Bolivia implementó un régimen cambiario flexible; el tipo de cambio oficial BCB hoy es EXACTAMENTE {bcb_official_rate} BOB/USD (extraído en tiempo real de www.bcb.gob.bo). ¡QUEDA ESTRICTAMENTE PROHIBIDO usar o mencionar el tipo de cambio histórico de 6.86 / 6.96! USA ESTE VALOR MATEMATICO COMO TIPO DE CAMBIO OFICIAL EN TODO EL REPORTE Y EN LOS KPIs. El tipo de cambio paralelo DEBE ser EXACTAMENTE el valor de Binance P2P ({binance_p2p_rate}). Calcula la brecha matemática entre ambos.
 
 
 PARTE 1: Un bloque JSON estrictamente válido encerrado entre ```json y ``` con los siguientes campos y métricas cuantitativas exactas:
