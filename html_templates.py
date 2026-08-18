@@ -84,7 +84,7 @@ def format_markdown_body_to_html(markdown_content):
             
     return "\n".join(html_blocks)
 
-def generate_email_hook_html(data, image_url, web_report_url):
+def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
     """
     Genera la plantilla de correo electrónico optimizada (El Gancho)
     con CSS Inline 100% compatible con clientes de correo móviles y de escritorio.
@@ -154,7 +154,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
 
               <!-- SALUDO PERSONALIZADO -->
               <p style="font-size: 15px; color: #334155; margin-bottom: 20px; line-height: 1.5;">
-                Estimado/a <strong>{{nombre_cliente | default: email}}</strong>,<br><br>
+                Estimado/a <strong>{recipient_email}</strong>,<br><br>
                 A continuación, te presentamos la síntesis ejecutiva del estado macroeconómico de Bolivia para el día de hoy:
               </p>
               
@@ -186,7 +186,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
               <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 12px;">
                 <tr>
                   <td width="4" bgcolor="#E76F2D" style="font-size:1px; line-height:1px;">&nbsp;</td>
-                  <td bgcolor="#f8fafc" style="border: 1px solid #e2e8f0; border-left: none; padding: 14px 16px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
+                  <td bgcolor="#f1f5f9" style="border: 1px solid #e2e8f0; border-left: none; padding: 14px 16px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
                     <div style="font-size: 14px; font-weight: bold; color: #E76F2D; margin-bottom: 4px;">
                       1. Reservas Internacionales & Divisas
                     </div>
@@ -208,7 +208,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                       <tr>
                         <td width="4" bgcolor="#0d3b66" style="font-size:1px; line-height:1px;">&nbsp;</td>
-                        <td bgcolor="#f8fafc" style="border: 1px solid #e2e8f0; border-left: none; padding: 12px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
+                        <td bgcolor="#f1f5f9" style="border: 1px solid #e2e8f0; border-left: none; padding: 12px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
                           <div style="font-size: 13px; font-weight: bold; color: #0d3b66; margin-bottom: 4px;">
                             2. Comercio Exterior
                           </div>
@@ -227,7 +227,7 @@ def generate_email_hook_html(data, image_url, web_report_url):
                     <table width="100%" cellspacing="0" cellpadding="0" border="0">
                       <tr>
                         <td width="4" bgcolor="#059669" style="font-size:1px; line-height:1px;">&nbsp;</td>
-                        <td bgcolor="#f8fafc" style="border: 1px solid #e2e8f0; border-left: none; padding: 12px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
+                        <td bgcolor="#f1f5f9" style="border: 1px solid #e2e8f0; border-left: none; padding: 12px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
                           <div style="font-size: 13px; font-weight: bold; color: #059669; margin-bottom: 4px;">
                             3. Inflación y Banca
                           </div>
@@ -248,8 +248,10 @@ def generate_email_hook_html(data, image_url, web_report_url):
                     <td align="center">
                       <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                          <td align="center" style="border-radius: 8px; background-color: #E76F2D;">
-                            <a href="{web_report_url}" target="_blank" style="font-size: 15px; font-family: sans-serif; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 16px 32px; border: 1px solid #E76F2D; display: inline-block; font-weight: bold; text-transform: uppercase;">VER INFORME COMPLETO EN LA WEB &rarr;</a>
+                          <td align="center" bgcolor="#E76F2D" style="border-radius: 8px; background-color: #E76F2D;">
+                            <a href="{web_report_url}" target="_blank" style="font-size: 15px; font-family: sans-serif; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 16px 32px; border: 1px solid #E76F2D; display: inline-block; font-weight: bold; text-transform: uppercase;">
+                                <span style="color: #ffffff;">VER INFORME COMPLETO EN LA WEB &rarr;</span>
+                            </a>
                           </td>
                         </tr>
                       </table>

@@ -528,8 +528,7 @@ def main():
 
     # 4. Generar el Correo Electrónico "Gancho" con CTA a la Web
     image_web_url = f"{site_base_url}/assets/infografia-latest.png"
-    email_html = generate_email_hook_html(data_dict, image_web_url, site_base_url)
-    email_html = email_html.replace('{{nombre_cliente | default: email}}', recipient_email)
+    email_html = generate_email_hook_html(data_dict, site_base_url, recipient_email)
 
     # 5. Publicar respaldo en Notion y Enviar por Gmail mediante Composio
     publish_and_send_briefing(
