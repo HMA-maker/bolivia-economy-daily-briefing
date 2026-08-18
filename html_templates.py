@@ -953,11 +953,11 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Evolución Reservas Netas (RIN) vs Divisas</div>
-          <canvas id="chartRIN" height="180"></canvas>
+          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartRIN"></canvas></div>
         </div>
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Balanza Comercial Histórica</div>
-          <canvas id="chartBalanza" height="180"></canvas>
+          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartBalanza"></canvas></div>
         </div>
       </div>
     </section>
