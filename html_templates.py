@@ -880,7 +880,10 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <!-- KPI 1 -->
       <div class="kpi-card blue">
         <div class="kpi-tag">Liquidez & Reservas</div>
-        <div class="kpi-title">Reservas Netas (RIN)</div>
+        <div class="kpi-title">
+          <svg style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Reservas Netas (RIN)
+        </div>
         <div class="kpi-value">{rin_total}</div>
         <div class="kpi-details">
           Oro: <strong>{rin_oro}</strong> ({rin_oro_pct})<br>
@@ -891,7 +894,10 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <!-- KPI 2 -->
       <div class="kpi-card gold">
         <div class="kpi-tag">Mercado Cambiario</div>
-        <div class="kpi-title">Brecha y Divisas</div>
+        <div class="kpi-title">
+          <svg style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+          Brecha y Divisas
+        </div>
         <div class="kpi-value">{brecha}</div>
         <div class="kpi-details">
           Oficial: <strong>{tc_oficial}</strong><br>
@@ -902,7 +908,10 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <!-- KPI 3 -->
       <div class="kpi-card green">
         <div class="kpi-tag">Precios & Comercio</div>
-        <div class="kpi-title">Inflación (IPC)</div>
+        <div class="kpi-title">
+          <svg style="vertical-align: middle; margin-right: 6px; width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+          Inflación (IPC)
+        </div>
         <div class="kpi-value">{inflacion_m}</div>
         <div class="kpi-details">
           Acumulada 12M: <strong>{inflacion_a}</strong><br>
@@ -915,6 +924,20 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <section class="infographic-showcase">
       <img src="assets/infografia-latest.png" alt="Infografía Macroeconomía Bolivia - {fecha}" loading="lazy">
       <div class="infographic-caption">Infografía ejecutiva generada automáticamente para Consultora Maldonado</div>
+    </section>
+
+    <!-- BRAND HIGHLIGHT BANNER -->
+    <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px;">
+          <svg style="width: 24px; height: 24px; color: #fff;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        </div>
+        <div>
+          <h3 style="color: #fff; font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin-bottom: 2px;">Análisis Profundo por Consultora Maldonado</h3>
+          <p style="color: #cbd5e1; font-size: 13px; margin: 0;">Más de 15 años de experiencia en inteligencia macroeconómica para la toma de decisiones.</p>
+        </div>
+      </div>
+      <a href="https://www.consultoramaldonado.com/contacto" style="background: var(--accent-gold); color: var(--primary-navy); padding: 10px 20px; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 14px; transition: transform 0.2s;">Consultar con un Experto</a>
     </section>
 
     <!-- 4. CUERPO DEL REPORTE COMPLETO -->
@@ -932,18 +955,29 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         </select>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href); alert('Enlace copiado al portapapeles!');">
-          📋 Copiar Enlace
-        </button>
+        <a class="share-btn" href="https://www.consultoramaldonado.com/contacto" style="background: var(--accent-gold); color: var(--primary-navy);">
+          💬 Obtener Análisis Profundo
+        </a>
         <a class="share-btn" href="https://api.whatsapp.com/send?text={html.escape(page_title)}%20{canonical_url}" target="_blank">
-          📲 Compartir en WhatsApp
+          📲 Compartir
         </a>
       </div>
     </section>
 
+    <!-- LEAD MAGNET O CAPTURA DE DATOS -->
+    <section style="background: #ffffff; border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
+      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
+      <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Suscríbete sin costo a nuestro resumen ejecutivo diario por Email o WhatsApp.</p>
+      <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" onsubmit="event.preventDefault(); alert('Funcionalidad de suscripción a implementar.');">
+        <input type="email" placeholder="Tu correo electrónico ejecutivo" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme Ahora</button>
+      </form>
+      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
+    </section>
+
     <!-- 6. DESCARGO LEGAL OBLIGATORIO -->
-    <footer class="legal-disclaimer">
-      <p><strong>Descargo de Responsabilidad Legal:</strong> La presente publicación tiene propósitos exclusivamente informativos, estadísticos y analíticos. No constituye ni debe interpretarse como asesoramiento financiero, tributario, contable o legal profesional, ni como recomendación explícita o implícita de compra/venta de activos, instrumentos financieros o divisas. Consultora Maldonado declina toda responsabilidad por decisiones tomadas a partir de estos datos.</p>
+    <footer class="legal-disclaimer" style="padding: 12px 16px; font-size: 11px; color: #94a3b8; background: transparent; border-color: #e2e8f0;">
+      <p><strong>Descargo Legal:</strong> La presente publicación tiene propósitos exclusivamente informativos, estadísticos y analíticos. No constituye asesoramiento financiero, tributario, contable o legal profesional, ni recomendación explícita o implícita de compra/venta de activos, instrumentos financieros o divisas. Consultora Maldonado declina toda responsabilidad por decisiones tomadas a partir de estos datos.</p>
     </footer>
 
   </main>
