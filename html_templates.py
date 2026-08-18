@@ -969,8 +969,8 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <!-- LEAD MAGNET O CAPTURA DE DATOS -->
     <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
-      <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Ingresa tu correo ahora para recibir este reporte en tu bandeja antes de la apertura del mercado.</p>
-      <form style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
+      
+      <form id="subscribe-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
         <input type="text" name="lead_name" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="lead_email" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="tel" name="lead_phone" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
@@ -985,36 +985,16 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Evolución Reservas Netas (RIN) vs Divisas</div>
-          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartRIN"></canvas></div>
-        </div>
-        <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Balanza Comercial Histórica</div>
-          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartBalanza"></canvas></div>
-        </div>
-      </div>
-    </section>
-    
-    <script id="chartDataJSON" type="application/json">
-      {{
-        "labels": ["Día -7", "Día -6", "Día -5", "Día -4", "Día -3", "Día -2", "Hoy"],
-        "rin_value": "{rin_total}",
-        "balanza_value": "{balanza}"
-      }}
-    </script>
+          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartRIN">Gráfico de RIN</canvas></div>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {{
-        var rawData = document.getElementById('chartDataJSON').textContent;
-        var parsedData = JSON.parse(rawData);
-        
-        var rinParsed = parseFloat(parsedData.rin_value.replace(/[^0-9.-]/g, '')) || 1980;
-        var balParsed = parseFloat(parsedData.balanza_value.replace(/[^0-9.-]/g, '')) || -120;
-
-        const ctxRIN = document.getElementById('chartRIN').getContext('2d');
-        new Chart(ctxRIN, {{
+      (function() {
+        var rinParsed = parseFloat('{rin_total}'.replace(/[^0-9.-]/g, '')) || 1980;
+        var ctxRIN = document.getElementById('chartRIN').getContext('2d');
+        new Chart(ctxRIN, {
           type: 'line',
-          data: {{
-            labels: parsedData.labels,
-            datasets: [{{
+          data: {
+            labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
+            datasets: [{
               label: 'Total RIN (M)',
               data: [1940, 1945, 1950, 1950, 1960, 1970, rinParsed],
               borderColor: '#0284c7',
@@ -1022,35 +1002,48 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
               borderWidth: 2,
               fill: true,
               tension: 0.4
-            }}]
-          }},
-          options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }}
-        }});
-
-        const ctxBal = document.getElementById('chartBalanza').getContext('2d');
-        new Chart(ctxBal, {{
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      })();
+    </script>
+        </div>
+        <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Balanza Comercial Histórica</div>
+          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartBalanza">Gráfico de Balanza</canvas></div>
+    <script>
+      (function() {
+        var balParsed = parseFloat('{balanza}'.replace(/[^0-9.-]/g, '')) || -120;
+        var ctxBal = document.getElementById('chartBalanza').getContext('2d');
+        new Chart(ctxBal, {
           type: 'bar',
-          data: {{
-            labels: parsedData.labels,
-            datasets: [{{
+          data: {
+            labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
+            datasets: [{
               label: 'Balanza Comercial',
               data: [-80, -90, -85, -100, -110, -115, balParsed],
               backgroundColor: '#f59e0b',
               borderRadius: 4
-            }}]
-          }},
-          options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }}
-        }});
-      }});
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+      })();
     </script>
+        </div>
+      </div>
+    </section>
+    
+    
 
     <!-- BRAND HIGHLIGHT BANNER (INLINE FORM) -->
     <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 24px; margin-bottom: 32px; gap: 16px;">
       <div style="text-align: center; margin-bottom: 20px;">
         <h3 style="color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 8px;">Análisis Profundo por Consultora Maldonado</h3>
-        <p style="color: #cbd5e1; font-size: 14px; margin: 0;">Complete sus datos para agendar una sesión de 15 minutos con un experto.</p>
+        
       </div>
-      <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+      <form id="contact-form" action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
         <input type="text" name="name" placeholder="Nombre" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
         <input type="email" name="email" placeholder="Correo" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
         <input type="tel" name="phone" placeholder="Teléfono" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
