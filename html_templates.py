@@ -294,26 +294,13 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
     </tr>
   </table>
 
-  <!-- MODAL DE CONTACTO RÁPIDO (CRO) -->
-  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-    <div style="background: #ffffff; width: 90%; max-width: 400px; border-radius: 12px; padding: 32px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); position: relative;">
-      <button onclick="document.getElementById('contactModal').style.display='none'" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer;">&times;</button>
-      <h3 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary-navy); margin-bottom: 12px; font-weight: 800;">Habla con un Experto</h3>
-      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px; line-height: 1.5;">Completa tus datos y un analista financiero se pondrá en contacto contigo en los próximos 15 minutos.</p>
-      <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
-        <input type="text" name="name" placeholder="Nombre completo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="email" name="email" placeholder="Correo corporativo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="tel" name="phone" placeholder="Teléfono / WhatsApp" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" style="background: var(--navy-light); color: #ffffff; border: none; padding: 14px; border-radius: 8px; font-weight: 700; font-family: var(--font-heading); font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px;">Solicitar Asesoría</button>
-      </form>
-    </div>
-  </div>
+  
 
 
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
     <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+    <button class="sticky-cta-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">Agendar Asesoría</button>
   </div>
 </body>
 </html>
@@ -983,8 +970,10 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       <p style="color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px;">Ingresa tu correo ahora para recibir este reporte en tu bandeja antes de la apertura del mercado.</p>
-      <form style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
-        <input id="leadEmailInput" name="lead_email" type="email" placeholder="tu.correo@empresa.com" style="flex: 1; min-width: 200px; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+      <form style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
+        <input type="text" name="lead_name" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="email" name="lead_email" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="tel" name="lead_phone" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
@@ -1005,16 +994,29 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       </div>
     </section>
     
+    <script id="chartDataJSON" type="application/json">
+      {{
+        "labels": ["Día -7", "Día -6", "Día -5", "Día -4", "Día -3", "Día -2", "Hoy"],
+        "rin_value": "{rin_total}",
+        "balanza_value": "{balanza}"
+      }}
+    </script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {{
+        var rawData = document.getElementById('chartDataJSON').textContent;
+        var parsedData = JSON.parse(rawData);
+        
+        var rinParsed = parseFloat(parsedData.rin_value.replace(/[^0-9.-]/g, '')) || 1980;
+        var balParsed = parseFloat(parsedData.balanza_value.replace(/[^0-9.-]/g, '')) || -120;
+
         const ctxRIN = document.getElementById('chartRIN').getContext('2d');
         new Chart(ctxRIN, {{
           type: 'line',
           data: {{
-            labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
+            labels: parsedData.labels,
             datasets: [{{
               label: 'Total RIN (M)',
-              data: [1940, 1945, 1950, 1950, 1960, 1970, parseFloat('{rin_total}'.replace(/[^0-9.-]/g, '')) || 1980],
+              data: [1940, 1945, 1950, 1950, 1960, 1970, rinParsed],
               borderColor: '#0284c7',
               backgroundColor: 'rgba(2, 132, 199, 0.1)',
               borderWidth: 2,
@@ -1029,10 +1031,10 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         new Chart(ctxBal, {{
           type: 'bar',
           data: {{
-            labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
+            labels: parsedData.labels,
             datasets: [{{
               label: 'Balanza Comercial',
-              data: [-80, -90, -85, -100, -110, -115, parseFloat('{balanza}'.replace(/[^0-9.-]/g, '')) || -120],
+              data: [-80, -90, -85, -100, -110, -115, balParsed],
               backgroundColor: '#f59e0b',
               borderRadius: 4
             }}]
@@ -1042,18 +1044,18 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       }});
     </script>
 
-    <!-- BRAND HIGHLIGHT BANNER -->
-    <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 16px 24px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <div style="background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px;">
-          <svg style="width: 24px; height: 24px; color: #fff;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-        </div>
-        <div>
-          <h3 style="color: #fff; font-family: var(--font-heading); font-size: 16px; font-weight: 700; margin-bottom: 2px;">Análisis Profundo por Consultora Maldonado</h3>
-          <p style="color: #cbd5e1; font-size: 13px; margin: 0;">Más de 15 años de experiencia en inteligencia macroeconómica para la toma de decisiones.</p>
-        </div>
+    <!-- BRAND HIGHLIGHT BANNER (INLINE FORM) -->
+    <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 24px; margin-bottom: 32px; gap: 16px;">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h3 style="color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 8px;">Análisis Profundo por Consultora Maldonado</h3>
+        <p style="color: #cbd5e1; font-size: 14px; margin: 0;">Complete sus datos para agendar una sesión de 15 minutos con un experto.</p>
       </div>
-      <button onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); padding: 12px 24px; border-radius: 8px; font-weight: 800; border: none; font-size: 15px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); text-transform: uppercase;">Consultar con un Experto</button>
+      <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+        <input type="text" name="name" placeholder="Nombre" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
+        <input type="email" name="email" placeholder="Correo" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
+        <input type="tel" name="phone" placeholder="Teléfono" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
+        <button type="submit" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 800; cursor: pointer;">Agendar Asesoría</button>
+      </form>
     </section>
 
     <!-- 4. CUERPO DEL REPORTE COMPLETO -->
@@ -1071,7 +1073,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         </select>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="share-btn" onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 800; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
+        <button class="share-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 800; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
           💬 Obtener Análisis Profundo
         </button>
         <a class="share-btn" href="https://api.whatsapp.com/send?text={html.escape(page_title)}%20{canonical_url}" target="_blank">
@@ -1097,26 +1099,13 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
   </footer>
 
 
-  <!-- MODAL DE CONTACTO RÁPIDO (CRO) -->
-  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-    <div style="background: #ffffff; width: 90%; max-width: 400px; border-radius: 12px; padding: 32px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); position: relative;">
-      <button onclick="document.getElementById('contactModal').style.display='none'" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; color: #64748b; cursor: pointer;">&times;</button>
-      <h3 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary-navy); margin-bottom: 12px; font-weight: 800;">Habla con un Experto</h3>
-      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 24px; line-height: 1.5;">Completa tus datos y un analista financiero se pondrá en contacto contigo en los próximos 15 minutos.</p>
-      <form action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-direction: column; gap: 16px;">
-        <input type="text" name="name" placeholder="Nombre completo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="email" name="email" placeholder="Correo corporativo" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="tel" name="phone" placeholder="Teléfono / WhatsApp" style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" style="background: var(--navy-light); color: #ffffff; border: none; padding: 14px; border-radius: 8px; font-weight: 700; font-family: var(--font-heading); font-size: 15px; cursor: pointer; transition: background 0.2s; margin-top: 8px;">Solicitar Asesoría</button>
-      </form>
-    </div>
-  </div>
+  
 
 
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
     <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+    <button class="sticky-cta-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">Agendar Asesoría</button>
   </div>
 </body>
 </html>
