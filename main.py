@@ -96,6 +96,18 @@ def fetch_binance_p2p_bob():
         print(f"[-] Error en Binance P2P: {e}")
         return "No disponible (Error de conexión Binance P2P)"
 
+
+def extract_first_name(email):
+    if not email or "@" not in email:
+        return "Cliente"
+    username = email.split("@")[0].lower()
+    generic_names = ["info", "contacto", "admin", "ventas", "soporte", "consultas", "hola", "suscripciones"]
+    if username in generic_names:
+        return "Lector/a"
+    # Convert 'juan.perez' -> 'Juan'
+    first_name = username.replace('.', ' ').replace('_', ' ').split(' ')[0]
+    return first_name.capitalize()
+
 def generate_macro_briefing(gemini_api_key, exa_api_key, fmp_api_key, fecha_str, fecha_iso):
     """
     Investiga con Google Search y genera el análisis macroeconómico estructurado
@@ -528,7 +540,9 @@ def main():
 
     # 4. Generar el Correo Electrónico "Gancho" con CTA a la Web
     image_web_url = f"{site_base_url}/assets/infografia-latest.png"
-    email_html = generate_email_hook_html(data_dict, site_base_url, recipient_email)
+    
+    nombre_cliente = extract_first_name(recipient_email)
+    email_html = generate_email_hook_html(data_dict, site_base_url, nombre_cliente)
 
     # 5. Publicar respaldo en Notion y Enviar por Gmail mediante Composio
     publish_and_send_briefing(

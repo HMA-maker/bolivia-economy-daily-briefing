@@ -163,9 +163,15 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
                 <table width="100%" cellspacing="0" cellpadding="0" border="0">
                   <tr>
                     <td>
-                      <span style="background-color: {colors['badge_bg']}; color: {colors['badge_text']}; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase;">
-                        {colors['label']}
-                      </span>
+                      <table border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td bgcolor="{colors['badge_bg']}" style="background-color: {colors['badge_bg']}; border-radius: 4px; padding: 4px 10px;">
+                            <span style="color: {colors['badge_text']}; font-size: 11px; font-weight: bold; text-transform: uppercase; font-family: sans-serif;">
+                              {colors['label']}
+                            </span>
+                          </td>
+                        </tr>
+                      </table>
                       <p style="margin: 10px 0 6px 0; font-size: 14px; line-height: 1.5; color: #1e293b;">
                         <strong>Alerta Central:</strong> {alerta_principal}
                       </p>
@@ -248,9 +254,9 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
                     <td align="center">
                       <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                          <td align="center" bgcolor="#E76F2D" style="border-radius: 8px; background-color: #E76F2D;">
-                            <a href="{web_report_url}" target="_blank" style="font-size: 15px; font-family: sans-serif; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 16px 32px; border: 1px solid #E76F2D; display: inline-block; font-weight: bold; text-transform: uppercase;">
-                                <span style="color: #ffffff;">VER INFORME COMPLETO EN LA WEB &rarr;</span>
+                          <td align="center" bgcolor="#e76f2d" style="background-color: #e76f2d; border-radius: 8px;">
+                            <a href="{web_report_url}" target="_blank" style="font-size: 15px; font-family: sans-serif; color: #ffffff; text-decoration: none; border-radius: 8px; padding: 16px 32px; border: 1px solid #e76f2d; display: inline-block; font-weight: bold; text-transform: uppercase;">
+                                <font color="#ffffff">VER INFORME COMPLETO EN LA WEB &rarr;</font>
                             </a>
                           </td>
                         </tr>
@@ -273,7 +279,7 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
 
           <!-- PIE DE PÁGINA Y DESCARGO LEGAL -->
           <tr>
-            <td style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 18px 28px; text-align: center;">
+            <td style="background-color: #f1f5f9; border-top: 1px solid #e2e8f0; padding: 18px 28px; text-align: center;">
               <p style="font-size: 11px; color: #94a3b8; margin: 0 0 8px 0; line-height: 1.4;">
                 <strong>Descargo de Responsabilidad:</strong> La presente información no constituye asesoría profesional, legal, contable ni recomendación de inversión. Es un análisis informativo elaborado por Consultora Maldonado.
               </p>
