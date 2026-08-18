@@ -963,13 +963,13 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     </section>
     
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function() {{
         const ctxRIN = document.getElementById('chartRIN').getContext('2d');
-        new Chart(ctxRIN, {
+        new Chart(ctxRIN, {{
           type: 'line',
-          data: {
+          data: {{
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
-            datasets: [{
+            datasets: [{{
               label: 'Total RIN (M)',
               data: [1940, 1945, 1950, 1950, 1960, 1970, parseFloat('{rin_total}'.replace(/[^\d.-]/g, '')) || 1980],
               borderColor: '#0284c7',
@@ -977,26 +977,26 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
               borderWidth: 2,
               fill: true,
               tension: 0.4
-            }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
+            }}]
+          }},
+          options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }}
+        }});
 
         const ctxBal = document.getElementById('chartBalanza').getContext('2d');
-        new Chart(ctxBal, {
+        new Chart(ctxBal, {{
           type: 'bar',
-          data: {
+          data: {{
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
-            datasets: [{
+            datasets: [{{
               label: 'Balanza Comercial',
               data: [-80, -90, -85, -100, -110, -115, parseFloat('{balanza}'.replace(/[^\d.-]/g, '')) || -120],
               backgroundColor: '#f59e0b',
               borderRadius: 4
-            }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-      });
+            }}]
+          }},
+          options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }}
+        }});
+      }});
     </script>
 
     <!-- BRAND HIGHLIGHT BANNER -->
