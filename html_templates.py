@@ -971,7 +971,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
             datasets: [{{
               label: 'Total RIN (M)',
-              data: [1940, 1945, 1950, 1950, 1960, 1970, parseFloat('{rin_total}'.replace(/[^\d.-]/g, '')) || 1980],
+              data: [1940, 1945, 1950, 1950, 1960, 1970, parseFloat('{rin_total}'.replace(/[^0-9.-]/g, '')) || 1980],
               borderColor: '#0284c7',
               backgroundColor: 'rgba(2, 132, 199, 0.1)',
               borderWidth: 2,
@@ -989,7 +989,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
             datasets: [{{
               label: 'Balanza Comercial',
-              data: [-80, -90, -85, -100, -110, -115, parseFloat('{balanza}'.replace(/[^\d.-]/g, '')) || -120],
+              data: [-80, -90, -85, -100, -110, -115, parseFloat('{balanza}'.replace(/[^0-9.-]/g, '')) || -120],
               backgroundColor: '#f59e0b',
               borderRadius: 4
             }}]
