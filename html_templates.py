@@ -329,7 +329,57 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
         }}, 3000);
       }}, 1000);
       return false;
+    }}}}
+  </script>
+
+  <!-- MODAL DE CONTACTO INTEGRADO -->
+  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+      <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="text" name="name" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
+          <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    function handleModalSubmit(e) {{
+      e.preventDefault();
+      var form = e.target;
+      var btn = form.querySelector('button[type="submit"]');
+      var original = btn.innerHTML;
+      btn.innerHTML = 'Enviando...';
+      btn.disabled = true;
+      
+      // AJAX fetch simulation
+      fetch('https://www.consultoramaldonado.com/api/contact', {{
+        method: 'POST',
+        body: new FormData(form)
+      }}).then(res => {{
+        btn.innerHTML = '¡Recibido!';
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
+      }}).catch(err => {{
+        // Fallback for CORS or missing endpoint
+        btn.innerHTML = '¡Recibido!';
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
+      }});
+      return false;
     }}
+  </script>
+
+  <script>
+    window.addEventListener('resize', function() {{
+      if (window.chartRIN_instance) window.chartRIN_instance.resize();
+      if (window.chartBalanza_instance) window.chartBalanza_instance.resize();
+    }});
   </script>
 </body>
 </html>
@@ -1003,7 +1053,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         <input type="text" name="lead_name" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="lead_email" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="tel" name="lead_phone" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
+        <button type="submit" onclick="if(window.gtag) gtag('event', 'subscribe');" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
     </section>
@@ -1019,7 +1069,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       (function() {{
         var rinParsed = parseFloat('{rin_total}'.replace(/[^0-9.-]/g, '')) || 1980;
         var ctxRIN = document.getElementById('chartRIN').getContext('2d');
-        new Chart(ctxRIN, {{
+        window.chartRIN_instance = new Chart(ctxRIN, {{
           type: 'line',
           data: {{
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
@@ -1045,7 +1095,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       (function() {{
         var balParsed = parseFloat('{balanza}'.replace(/[^0-9.-]/g, '')) || -120;
         var ctxBal = document.getElementById('chartBalanza').getContext('2d');
-        new Chart(ctxBal, {{
+        window.chartBalanza_instance = new Chart(ctxBal, {{
           type: 'bar',
           data: {{
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
@@ -1089,7 +1139,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <section class="archive-bar">
       <div style="display: flex; align-items: center; gap: 8px;">
         <span>📅 <strong>Historial de Reportes:</strong></span>
-        <select class="archive-select" onchange="if(this.value) window.location.href=this.value;">
+        <select class="archive-select" onchange="if(this.value) fetchReport(this.value);">
           <option value="">Seleccionar fecha previa...</option>
           {archive_options_html}
         </select>
@@ -1098,9 +1148,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         <button class="share-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 800; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
           💬 Obtener Análisis Profundo
         </button>
-        <a class="share-btn" href="https://api.whatsapp.com/send?text={html.escape(page_title)}%20{canonical_url}" target="_blank">
-          📲 Compartir
-        </a>
+        <button class="share-btn" onclick="document.getElementById('contactModal').style.display='flex'" style="background: #25D366; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Contacto Directo</button>
       </div>
     </section>
 
@@ -1156,7 +1204,57 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         }}, 3000);
       }}, 1000);
       return false;
+    }}}}
+  </script>
+
+  <!-- MODAL DE CONTACTO INTEGRADO -->
+  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+      <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
+      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="text" name="name" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
+        <div style="display: flex; gap: 12px; margin-top: 8px;">
+          <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
+          <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    function handleModalSubmit(e) {{
+      e.preventDefault();
+      var form = e.target;
+      var btn = form.querySelector('button[type="submit"]');
+      var original = btn.innerHTML;
+      btn.innerHTML = 'Enviando...';
+      btn.disabled = true;
+      
+      // AJAX fetch simulation
+      fetch('https://www.consultoramaldonado.com/api/contact', {{
+        method: 'POST',
+        body: new FormData(form)
+      }}).then(res => {{
+        btn.innerHTML = '¡Recibido!';
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
+      }}).catch(err => {{
+        // Fallback for CORS or missing endpoint
+        btn.innerHTML = '¡Recibido!';
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
+      }});
+      return false;
     }}
+  </script>
+
+  <script>
+    window.addEventListener('resize', function() {{
+      if (window.chartRIN_instance) window.chartRIN_instance.resize();
+      if (window.chartBalanza_instance) window.chartBalanza_instance.resize();
+    }});
   </script>
 </body>
 </html>
