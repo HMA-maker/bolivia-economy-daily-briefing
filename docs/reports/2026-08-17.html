@@ -112,7 +112,7 @@
       text-decoration: none;
       color: #ffffff;
       font-family: var(--font-heading);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 17px;
       letter-spacing: -0.3px;
     }
@@ -124,7 +124,7 @@
       padding: 3px 8px;
       border-radius: 4px;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 900;
     }
 
     .nav-links {
@@ -166,7 +166,7 @@
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 900;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 16px;
@@ -175,7 +175,7 @@
     .hero-title {
       font-family: var(--font-heading);
       font-size: 32px;
-      font-weight: 800;
+      font-weight: 900;
       line-height: 1.25;
       letter-spacing: -0.8px;
       margin-bottom: 12px;
@@ -220,14 +220,14 @@
       padding: 4px 10px;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 0.5px;
     }
 
     .alert-title {
       font-family: var(--font-heading);
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 900;
       color: #0f172a;
     }
 
@@ -280,7 +280,7 @@
 
     .kpi-tag {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 900;
       text-transform: uppercase;
       color: var(--text-muted);
       letter-spacing: 0.5px;
@@ -290,7 +290,7 @@
     .kpi-title {
       font-family: var(--font-heading);
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 900;
       color: #1e293b;
       margin-bottom: 10px;
     }
@@ -298,7 +298,7 @@
     .kpi-value {
       font-family: var(--font-heading);
       font-size: 30px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy-light);
       margin-bottom: 12px;
       letter-spacing: -0.5px;
@@ -349,7 +349,7 @@
     .section-title {
       font-family: var(--font-heading);
       font-size: 20px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy-light);
       margin: 28px 0 12px 0;
       padding-bottom: 8px;
@@ -364,7 +364,7 @@
     .subsection-title {
       font-family: var(--font-heading);
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 900;
       color: #1e293b;
       margin: 18px 0 8px 0;
     }
@@ -486,7 +486,25 @@
         gap: 12px;
       }
     }
-  </style>
+  
+    .report-card h1, .report-card h2, .report-card h3, .report-card h4 {
+      font-weight: 900 !important;
+      color: var(--primary-navy);
+      letter-spacing: -0.5px;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    .report-card p {
+      line-height: 1.7;
+      margin-bottom: 1.2em;
+    }
+    .report-card ul {
+      margin-bottom: 1.2em;
+    }
+    .report-card li {
+      margin-bottom: 0.5em;
+    }
+</style>
 </head>
 <body>
 
@@ -711,17 +729,19 @@ La presente información no constituye asesoría profesional ni consejo de inver
     <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
       <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
-      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+
         <input type="hidden" name="source" value="landing_page">
         <input type="hidden" name="timestamp" class="form-timestamp">
-        <input type="text" name="name" aria-label="Nombre completo" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;"></div>
         <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
-        <textarea name="message" aria-label="Mensaje" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Mensaje</label><textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea></div>
         <div style="display: flex; gap: 12px; margin-top: 8px;">
           <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
           <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
         </div>
-      </form>
+      
+</form>
     </div>
   </div>
   <script>

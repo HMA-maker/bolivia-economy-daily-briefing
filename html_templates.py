@@ -139,8 +139,8 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
                     <img src="{logo_url}" alt="Logo" style="max-height: 50px; display: block;" />
                   </td>
                   <td valign="middle" style="padding-left: 15px;">
-                    <div style="color: #E76F2D; font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;">Consultora Maldonado</div>
-                    <h1 style="color: #2d2d2d; margin: 0 0 4px 0; font-size: 20px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.3;">🇧🇴 Resumen Ejecutivo</h1>
+                    <div style="color: #E76F2D; font-size: 13px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;">Consultora Maldonado</div>
+                    <h1 style="color: #2d2d2d; margin: 0 0 4px 0; font-size: 20px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.3;">🇧🇴 Resumen Ejecutivo</h1>
                     <p style="color: #64748b; margin: 0; font-size: 13px;">Fecha de análisis: {fecha}</p>
                   </td>
                 </tr>
@@ -300,7 +300,7 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
     <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'; return false;" style="font-weight:900;">💬 Abrir Formulario de Contacto</button>
   </div>
 
   <!-- AJAX Feedback Script -->
@@ -363,17 +363,19 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
     <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
       <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
-      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+
         <input type="hidden" name="source" value="landing_page">
         <input type="hidden" name="timestamp" class="form-timestamp">
-        <input type="text" name="name" aria-label="Nombre completo" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;"></div>
         <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
-        <textarea name="message" aria-label="Mensaje" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Mensaje</label><textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea></div>
         <div style="display: flex; gap: 12px; margin-top: 8px;">
           <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
           <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
         </div>
-      </form>
+      
+</form>
     </div>
   </div>
   <script>
@@ -596,7 +598,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       text-decoration: none;
       color: #ffffff;
       font-family: var(--font-heading);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 17px;
       letter-spacing: -0.3px;
     }}
@@ -608,7 +610,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       padding: 3px 8px;
       border-radius: 4px;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 900;
     }}
 
     .nav-links {{
@@ -650,7 +652,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 900;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       margin-bottom: 16px;
@@ -659,7 +661,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     .hero-title {{
       font-family: var(--font-heading);
       font-size: 32px;
-      font-weight: 800;
+      font-weight: 900;
       line-height: 1.25;
       letter-spacing: -0.8px;
       margin-bottom: 12px;
@@ -704,14 +706,14 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       padding: 4px 10px;
       border-radius: 6px;
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 0.5px;
     }}
 
     .alert-title {{
       font-family: var(--font-heading);
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 900;
       color: #0f172a;
     }}
 
@@ -764,7 +766,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
 
     .kpi-tag {{
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 900;
       text-transform: uppercase;
       color: var(--text-muted);
       letter-spacing: 0.5px;
@@ -774,7 +776,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     .kpi-title {{
       font-family: var(--font-heading);
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 900;
       color: #1e293b;
       margin-bottom: 10px;
     }}
@@ -782,7 +784,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     .kpi-value {{
       font-family: var(--font-heading);
       font-size: 30px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy-light);
       margin-bottom: 12px;
       letter-spacing: -0.5px;
@@ -833,7 +835,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     .section-title {{
       font-family: var(--font-heading);
       font-size: 20px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--navy-light);
       margin: 28px 0 12px 0;
       padding-bottom: 8px;
@@ -848,7 +850,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     .subsection-title {{
       font-family: var(--font-heading);
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 900;
       color: #1e293b;
       margin: 18px 0 8px 0;
     }}
@@ -997,7 +999,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       border: none;
       padding: 8px 16px;
       border-radius: 6px;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 13px;
       cursor: pointer;
       text-transform: uppercase;
@@ -1006,7 +1008,25 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     @media (max-width: 600px) {{
       .sticky-cta {{ flex-direction: column; gap: 8px; text-align: center; }}
     }}
-  </style>
+  
+    .report-card h1, .report-card h2, .report-card h3, .report-card h4 {
+      font-weight: 900 !important;
+      color: var(--primary-navy);
+      letter-spacing: -0.5px;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    .report-card p {
+      line-height: 1.7;
+      margin-bottom: 1.2em;
+    }
+    .report-card ul {
+      margin-bottom: 1.2em;
+    }
+    .report-card li {
+      margin-bottom: 0.5em;
+    }
+</style>
 </head>
 <body>
 
@@ -1097,7 +1117,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
 
     <!-- LEAD MAGNET O CAPTURA DE DATOS -->
     <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
-      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
+      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 900; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       
       <form id="subscribe-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" onsubmit="return handleFormSubmit(event)">
         <input type="hidden" name="source" value="landing_page">
@@ -1105,7 +1125,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         <input type="text" name="lead_name" aria-label="Nombre completo" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="lead_email" aria-label="Correo electrónico" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="tel" name="lead_phone" aria-label="Teléfono" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" onclick="if(window.gtag) gtag('event', 'subscribe');" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
+        <button type="submit" onclick="if(window.gtag) gtag('event', 'subscribe');" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 900; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
     </section>
@@ -1115,7 +1135,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--navy-light); margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px;">Visualización Analítica (Tendencia 7 Días)</h3>
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Evolución Reservas Netas (RIN) vs Divisas</div>
+          <div style="font-size: 12px; color: var(--text-muted); font-weight: 900; text-transform: uppercase; margin-bottom: 12px;">Evolución Reservas Netas (RIN) vs Divisas</div>
           <div style="position: relative; height: 25vh; min-height: 180px; width: 100%; max-width: 100%;"><canvas id="chartRIN">Gráfico de RIN</canvas></div>
     <script>
       (function() {{
@@ -1141,7 +1161,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     </script>
         </div>
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Balanza Comercial Histórica</div>
+          <div style="font-size: 12px; color: var(--text-muted); font-weight: 900; text-transform: uppercase; margin-bottom: 12px;">Balanza Comercial Histórica</div>
           <div style="position: relative; height: 25vh; min-height: 180px; width: 100%; max-width: 100%;"><canvas id="chartBalanza">Gráfico de Balanza</canvas></div>
     <script>
       (function() {{
@@ -1171,17 +1191,19 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <!-- BRAND HIGHLIGHT BANNER (INLINE FORM) -->
     <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 24px; margin-bottom: 32px; gap: 16px;">
       <div style="text-align: center; margin-bottom: 20px;">
-        <h3 style="color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 8px;">Análisis Profundo por Consultora Maldonado</h3>
+        <h3 style="color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 900; margin-bottom: 8px;">Análisis Profundo por Consultora Maldonado</h3>
         
       </div>
-      <form id="contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+      <form id="contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: flex-end;">
+
         <input type="hidden" name="source" value="landing_page">
         <input type="hidden" name="timestamp" class="form-timestamp">
-        <input type="text" name="name" aria-label="Nombre" placeholder="Nombre" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
-        <input type="email" name="email" aria-label="Correo" placeholder="Correo" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
-        <input type="tel" name="phone" aria-label="Teléfono" placeholder="Teléfono" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
-        <button type="button" onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 800; cursor: pointer;">Agendar Asesoría</button>
-      </form>
+        <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 12px; border: none; border-radius: 6px;"></div>
+        <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Correo corporativo</label><input type="email" name="email" placeholder="ejemplo@empresa.com" required style="padding: 12px; border: none; border-radius: 6px;"></div>
+        <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Teléfono / WhatsApp</label><input type="tel" name="phone" placeholder="+591 70000000" required style="padding: 12px; border: none; border-radius: 6px;"></div>
+        <button type="button" onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 900; cursor: pointer;">Agendar Asesoría</button>
+      
+</form>
     </section>
 
     <!-- 4. CUERPO DEL REPORTE COMPLETO -->
@@ -1199,7 +1221,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         </select>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="share-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 800; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
+        <button class="share-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 900; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
           💬 Obtener Análisis Profundo
         </button>
         <button class="share-btn" onclick="document.getElementById('contactModal').style.display='flex'" style="background: #25D366; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Contacto Directo</button>
@@ -1208,7 +1230,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
 
     <!-- 6. DESCARGO LEGAL OBLIGATORIO (COLAPSABLE) -->
     <details style="padding: 12px 16px; font-size: 11.5px; color: #94a3b8; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 24px; margin-top: 32px; background: #fff;">
-      <summary style="cursor: pointer; font-weight: 700; color: var(--text-muted); user-select: none;">Aviso Legal y Descargo de Responsabilidad (Ver detalles)</summary>
+      <summary style="cursor: pointer; font-weight: 900; color: var(--text-muted); user-select: none;">Aviso Legal y Descargo de Responsabilidad (Ver detalles)</summary>
       <p style="margin-top: 12px; line-height: 1.5;">La presente publicación tiene propósitos exclusivamente informativos, estadísticos y analíticos. No constituye asesoramiento financiero, tributario, contable o legal profesional, ni recomendación explícita o implícita de compra/venta de activos, instrumentos financieros o divisas. Consultora Maldonado declina toda responsabilidad por decisiones tomadas a partir de estos datos.</p>
     </details>
 
@@ -1229,7 +1251,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
     <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'; return false;" style="font-weight:900;">💬 Abrir Formulario de Contacto</button>
   </div>
 
   <!-- AJAX Feedback Script -->
@@ -1292,17 +1314,19 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
       <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
-      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
+
         <input type="hidden" name="source" value="landing_page">
         <input type="hidden" name="timestamp" class="form-timestamp">
-        <input type="text" name="name" aria-label="Nombre completo" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;"></div>
         <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
-        <textarea name="message" aria-label="Mensaje" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
+        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Mensaje</label><textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea></div>
         <div style="display: flex; gap: 12px; margin-top: 8px;">
           <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
           <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
         </div>
-      </form>
+      
+</form>
     </div>
   </div>
   <script>

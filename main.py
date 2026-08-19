@@ -271,6 +271,7 @@ La presente información no constituye asesoría profesional ni consejo de inver
 ```
 
 Genera ambas partes con datos cuantitativos contrastados y actualizados.
+REGLA ESTRICTA DE LEGIBILIDAD (UX/UI): En la PARTE 2 (Análisis profundo), debes dividir cualquier texto explicativo en PÁRRAFOS CORTOS (máximo 3 líneas) y usar BULLET POINTS (viñetas) en toda la estructura para facilitar el escaneo visual. Queda estrictamente prohibido redactar párrafos densos o largos.
 """
 
     models_to_try = [
