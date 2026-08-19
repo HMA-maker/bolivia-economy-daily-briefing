@@ -1009,23 +1009,23 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       .sticky-cta {{ flex-direction: column; gap: 8px; text-align: center; }}
     }}
   
-    .report-card h1, .report-card h2, .report-card h3, .report-card h4 {
+    .report-card h1, .report-card h2, .report-card h3, .report-card h4 {{
       font-weight: 900 !important;
       color: var(--primary-navy);
       letter-spacing: -0.5px;
       margin-top: 1.5em;
       margin-bottom: 0.5em;
-    }
-    .report-card p {
+    }}
+    .report-card p {{
       line-height: 1.7;
       margin-bottom: 1.2em;
-    }
-    .report-card ul {
+    }}
+    .report-card ul {{
       margin-bottom: 1.2em;
-    }
-    .report-card li {
+    }}
+    .report-card li {{
       margin-bottom: 0.5em;
-    }
+    }}
 </style>
 </head>
 <body>
