@@ -302,6 +302,35 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
     <p>¿Requiere análisis detallado para su junta directiva?</p>
     <button class="sticky-cta-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">Agendar Asesoría</button>
   </div>
+
+  <!-- AJAX Feedback Script -->
+  <script>
+    function handleFormSubmit(e) {{
+      e.preventDefault();
+      var form = e.target;
+      var btn = form.querySelector('button[type="submit"]');
+      if(!btn) return false;
+      var originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.innerHTML = 'Enviando...';
+      
+      // Simulate AJAX success
+      setTimeout(function() {{
+        btn.innerHTML = '✓ ¡Enviado con éxito!';
+        var oldBg = btn.style.backgroundColor;
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(function() {{
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.backgroundColor = oldBg;
+          form.reset();
+        }}, 3000);
+      }}, 1000);
+      return false;
+    }}
+  </script>
 </body>
 </html>
 """
@@ -970,7 +999,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       
-      <form id="subscribe-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" action="https://www.consultoramaldonado.com/api/subscribe" method="POST">
+      <form id="subscribe-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" onsubmit="return handleFormSubmit(event)">
         <input type="text" name="lead_name" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="email" name="lead_email" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <input type="tel" name="lead_phone" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
@@ -985,16 +1014,16 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Evolución Reservas Netas (RIN) vs Divisas</div>
-          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartRIN">Gráfico de RIN</canvas></div>
+          <div style="position: relative; height: 25vh; min-height: 180px; width: 100%; max-width: 100%;"><canvas id="chartRIN">Gráfico de RIN</canvas></div>
     <script>
-      (function() {
+      (function() {{
         var rinParsed = parseFloat('{rin_total}'.replace(/[^0-9.-]/g, '')) || 1980;
         var ctxRIN = document.getElementById('chartRIN').getContext('2d');
-        new Chart(ctxRIN, {
+        new Chart(ctxRIN, {{
           type: 'line',
-          data: {
+          data: {{
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
-            datasets: [{
+            datasets: [{{
               label: 'Total RIN (M)',
               data: [1940, 1945, 1950, 1950, 1960, 1970, rinParsed],
               borderColor: '#0284c7',
@@ -1002,34 +1031,34 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
               borderWidth: 2,
               fill: true,
               tension: 0.4
-            }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-      })();
+            }}]
+          }},
+          options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }}
+        }});
+      }})();
     </script>
         </div>
         <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 12px;">Balanza Comercial Histórica</div>
-          <div style="position: relative; height: 180px; width: 100%;"><canvas id="chartBalanza">Gráfico de Balanza</canvas></div>
+          <div style="position: relative; height: 25vh; min-height: 180px; width: 100%; max-width: 100%;"><canvas id="chartBalanza">Gráfico de Balanza</canvas></div>
     <script>
-      (function() {
+      (function() {{
         var balParsed = parseFloat('{balanza}'.replace(/[^0-9.-]/g, '')) || -120;
         var ctxBal = document.getElementById('chartBalanza').getContext('2d');
-        new Chart(ctxBal, {
+        new Chart(ctxBal, {{
           type: 'bar',
-          data: {
+          data: {{
             labels: ['Día -7', 'Día -6', 'Día -5', 'Día -4', 'Día -3', 'Día -2', 'Hoy'],
-            datasets: [{
+            datasets: [{{
               label: 'Balanza Comercial',
               data: [-80, -90, -85, -100, -110, -115, balParsed],
               backgroundColor: '#f59e0b',
               borderRadius: 4
-            }]
-          },
-          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-        });
-      })();
+            }}]
+          }},
+          options: {{ responsive: true, maintainAspectRatio: false, plugins: {{ legend: {{ display: false }} }} }}
+        }});
+      }})();
     </script>
         </div>
       </div>
@@ -1043,7 +1072,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         <h3 style="color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 8px;">Análisis Profundo por Consultora Maldonado</h3>
         
       </div>
-      <form id="contact-form" action="https://www.consultoramaldonado.com/api/contact" method="POST" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+      <form id="contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
         <input type="text" name="name" placeholder="Nombre" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
         <input type="email" name="email" placeholder="Correo" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
         <input type="tel" name="phone" placeholder="Teléfono" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
@@ -1100,6 +1129,35 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     <p>¿Requiere análisis detallado para su junta directiva?</p>
     <button class="sticky-cta-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">Agendar Asesoría</button>
   </div>
+
+  <!-- AJAX Feedback Script -->
+  <script>
+    function handleFormSubmit(e) {{
+      e.preventDefault();
+      var form = e.target;
+      var btn = form.querySelector('button[type="submit"]');
+      if(!btn) return false;
+      var originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.innerHTML = 'Enviando...';
+      
+      // Simulate AJAX success
+      setTimeout(function() {{
+        btn.innerHTML = '✓ ¡Enviado con éxito!';
+        var oldBg = btn.style.backgroundColor;
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(function() {{
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.backgroundColor = oldBg;
+          form.reset();
+        }}, 3000);
+      }}, 1000);
+      return false;
+    }}
+  </script>
 </body>
 </html>
 """

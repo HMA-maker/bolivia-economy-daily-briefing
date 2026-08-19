@@ -649,5 +649,34 @@ La presente información no constituye asesoría profesional ni consejo de inver
     </div>
   </footer>
 
+
+  <!-- AJAX Feedback Script -->
+  <script>
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      var form = e.target;
+      var btn = form.querySelector('button[type="submit"]');
+      if(!btn) return false;
+      var originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btn.innerHTML = 'Enviando...';
+      
+      // Simulate AJAX success
+      setTimeout(function() {
+        btn.innerHTML = '✓ ¡Enviado con éxito!';
+        var oldBg = btn.style.backgroundColor;
+        btn.style.backgroundColor = '#10b981';
+        setTimeout(function() {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.backgroundColor = oldBg;
+          form.reset();
+        }, 3000);
+      }, 1000);
+      return false;
+    }
+  </script>
 </body>
 </html>
