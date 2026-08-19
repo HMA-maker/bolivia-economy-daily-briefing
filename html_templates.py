@@ -313,19 +313,25 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
       var originalText = btn.innerHTML;
       btn.disabled = true;
       btn.style.opacity = '0.7';
-      btn.innerHTML = 'Conectando al servidor...';
+      btn.innerHTML = 'Enviando al CRM...';
       
       const formData = new FormData(form);
       const jsonPayload = Object.fromEntries(formData.entries());
       
+      // Añadimos campos obligatorios para FormSubmit
+      jsonPayload['_captcha'] = 'false';
+      jsonPayload['_subject'] = 'Nuevo Lead - Landing Page Consultora Maldonado';
+      
       try {{
-        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
+        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {{
           method: 'POST',
-          headers: {{ 'Content-Type': 'application/json' }},
+          headers: {{ 'Content-Type': 'application/json', 'Accept': 'application/json' }},
           body: JSON.stringify(jsonPayload)
         }});
         
-        if (response.ok) {{
+        const data = await response.json();
+        
+        if (response.ok && data.success === "true") {{
           if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Lead registrado!';
           var oldBg = btn.style.backgroundColor;
@@ -341,7 +347,7 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
           if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
         }}
       }} catch (error) {{
-        btn.innerHTML = 'Servidor CRM no configurado';
+        btn.innerHTML = 'Fallo en CRM. Reintentar.';
         setTimeout(function() {{
           btn.innerHTML = originalText;
           btn.disabled = false;
@@ -349,7 +355,7 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
         }}, 3000);
       }}
       return false;
-    }}
+    }}}}
   </script>
 
   <!-- MODAL DE CONTACTO INTEGRADO -->
@@ -376,22 +382,26 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
       var original = btn.innerHTML;
-      btn.innerHTML = 'Conectando al servidor...';
+      btn.innerHTML = 'Enviando al CRM...';
       btn.disabled = true;
       
       const formData = new FormData(form);
       const jsonPayload = Object.fromEntries(formData.entries());
+      jsonPayload['_captcha'] = 'false';
+      jsonPayload['_subject'] = 'Nuevo Mensaje - Landing Page Consultora Maldonado';
       
       try {{
-        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
+        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {{
           method: 'POST',
-          headers: {{ 'Content-Type': 'application/json' }},
+          headers: {{ 'Content-Type': 'application/json', 'Accept': 'application/json' }},
           body: JSON.stringify(jsonPayload)
         }});
         
-        if (response.ok) {{
+        const data = await response.json();
+        
+        if (response.ok && data.success === "true") {{
           if(window.gtag) gtag("event", "submit_success");
-          btn.innerHTML = '✓ ¡Mensaje enviado!';
+          btn.innerHTML = '✓ ¡Lead registrado!';
           btn.style.backgroundColor = '#10b981';
           setTimeout(function() {{
             document.getElementById('contactModal').style.display='none';
@@ -404,14 +414,14 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
           if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
         }}
       }} catch(error) {{
-        btn.innerHTML = 'Error de Integración CRM';
+        btn.innerHTML = 'Fallo en CRM. Reintentar.';
         setTimeout(function() {{
           btn.innerHTML = original;
           btn.disabled = false;
         }}, 2000);
       }}
       return false;
-    }}
+    }}}}
   </script>
 
   <script>
@@ -1232,19 +1242,25 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       var originalText = btn.innerHTML;
       btn.disabled = true;
       btn.style.opacity = '0.7';
-      btn.innerHTML = 'Conectando al servidor...';
+      btn.innerHTML = 'Enviando al CRM...';
       
       const formData = new FormData(form);
       const jsonPayload = Object.fromEntries(formData.entries());
       
+      // Añadimos campos obligatorios para FormSubmit
+      jsonPayload['_captcha'] = 'false';
+      jsonPayload['_subject'] = 'Nuevo Lead - Landing Page Consultora Maldonado';
+      
       try {{
-        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
+        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {{
           method: 'POST',
-          headers: {{ 'Content-Type': 'application/json' }},
+          headers: {{ 'Content-Type': 'application/json', 'Accept': 'application/json' }},
           body: JSON.stringify(jsonPayload)
         }});
         
-        if (response.ok) {{
+        const data = await response.json();
+        
+        if (response.ok && data.success === "true") {{
           if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Lead registrado!';
           var oldBg = btn.style.backgroundColor;
@@ -1260,7 +1276,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
           if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
         }}
       }} catch (error) {{
-        btn.innerHTML = 'Servidor CRM no configurado';
+        btn.innerHTML = 'Fallo en CRM. Reintentar.';
         setTimeout(function() {{
           btn.innerHTML = originalText;
           btn.disabled = false;
@@ -1268,7 +1284,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         }}, 3000);
       }}
       return false;
-    }}
+    }}}}
   </script>
 
   <!-- MODAL DE CONTACTO INTEGRADO -->
@@ -1295,22 +1311,26 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
       var original = btn.innerHTML;
-      btn.innerHTML = 'Conectando al servidor...';
+      btn.innerHTML = 'Enviando al CRM...';
       btn.disabled = true;
       
       const formData = new FormData(form);
       const jsonPayload = Object.fromEntries(formData.entries());
+      jsonPayload['_captcha'] = 'false';
+      jsonPayload['_subject'] = 'Nuevo Mensaje - Landing Page Consultora Maldonado';
       
       try {{
-        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
+        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {{
           method: 'POST',
-          headers: {{ 'Content-Type': 'application/json' }},
+          headers: {{ 'Content-Type': 'application/json', 'Accept': 'application/json' }},
           body: JSON.stringify(jsonPayload)
         }});
         
-        if (response.ok) {{
+        const data = await response.json();
+        
+        if (response.ok && data.success === "true") {{
           if(window.gtag) gtag("event", "submit_success");
-          btn.innerHTML = '✓ ¡Mensaje enviado!';
+          btn.innerHTML = '✓ ¡Lead registrado!';
           btn.style.backgroundColor = '#10b981';
           setTimeout(function() {{
             document.getElementById('contactModal').style.display='none';
@@ -1323,14 +1343,14 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
           if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
         }}
       }} catch(error) {{
-        btn.innerHTML = 'Error de Integración CRM';
+        btn.innerHTML = 'Fallo en CRM. Reintentar.';
         setTimeout(function() {{
           btn.innerHTML = original;
           btn.disabled = false;
         }}, 2000);
       }}
       return false;
-    }}
+    }}}}
   </script>
 
   <script>
