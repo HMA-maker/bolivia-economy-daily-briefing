@@ -315,14 +315,17 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
       btn.style.opacity = '0.7';
       btn.innerHTML = 'Conectando al servidor...';
       
+      const formData = new FormData(form);
+      const jsonPayload = Object.fromEntries(formData.entries());
+      
       try {{
-        const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/45123456/a1b2c3d4-e5f6-7890-abcd-ef1234567890', {{
+        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
           method: 'POST',
-          body: new FormData(form)
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify(jsonPayload)
         }});
         
         if (response.ok) {{
-          const data = await response.json();
           if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Lead registrado!';
           var oldBg = btn.style.backgroundColor;
@@ -376,14 +379,17 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
       btn.innerHTML = 'Conectando al servidor...';
       btn.disabled = true;
       
+      const formData = new FormData(form);
+      const jsonPayload = Object.fromEntries(formData.entries());
+      
       try {{
-        const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/45123456/a1b2c3d4-e5f6-7890-abcd-ef1234567890', {{
+        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
           method: 'POST',
-          body: new FormData(form)
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify(jsonPayload)
         }});
         
         if (response.ok) {{
-          const data = await response.json();
           if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Mensaje enviado!';
           btn.style.backgroundColor = '#10b981';
@@ -1228,14 +1234,17 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       btn.style.opacity = '0.7';
       btn.innerHTML = 'Conectando al servidor...';
       
+      const formData = new FormData(form);
+      const jsonPayload = Object.fromEntries(formData.entries());
+      
       try {{
-        const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/45123456/a1b2c3d4-e5f6-7890-abcd-ef1234567890', {{
+        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
           method: 'POST',
-          body: new FormData(form)
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify(jsonPayload)
         }});
         
         if (response.ok) {{
-          const data = await response.json();
           if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Lead registrado!';
           var oldBg = btn.style.backgroundColor;
@@ -1289,14 +1298,17 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       btn.innerHTML = 'Conectando al servidor...';
       btn.disabled = true;
       
+      const formData = new FormData(form);
+      const jsonPayload = Object.fromEntries(formData.entries());
+      
       try {{
-        const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/45123456/a1b2c3d4-e5f6-7890-abcd-ef1234567890', {{
+        const response = await fetch('https://webhook.site/0aea575a-47fe-4fee-a6cb-a43adb8d0bfa', {{
           method: 'POST',
-          body: new FormData(form)
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify(jsonPayload)
         }});
         
         if (response.ok) {{
-          const data = await response.json();
           if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Mensaje enviado!';
           btn.style.backgroundColor = '#10b981';
