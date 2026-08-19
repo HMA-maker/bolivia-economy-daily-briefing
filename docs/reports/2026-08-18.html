@@ -483,7 +483,8 @@
         padding: 24px 18px;
       }
       .nav-links {
-        display: none;
+        flex-direction: column;
+        gap: 12px;
       }
     }
 
@@ -616,9 +617,11 @@
       <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
       
       <form id="subscribe-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" onsubmit="return handleFormSubmit(event)">
-        <input type="text" name="lead_name" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="email" name="lead_email" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="tel" name="lead_phone" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="hidden" name="source" value="landing_page">
+        <input type="hidden" name="timestamp" class="form-timestamp">
+        <input type="text" name="lead_name" aria-label="Nombre completo" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="email" name="lead_email" aria-label="Correo electrónico" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
+        <input type="tel" name="lead_phone" aria-label="Teléfono" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
         <button type="submit" onclick="if(window.gtag) gtag('event', 'subscribe');" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
       </form>
       <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
@@ -689,10 +692,12 @@
         
       </div>
       <form id="contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
-        <input type="text" name="name" placeholder="Nombre" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
-        <input type="email" name="email" placeholder="Correo" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
-        <input type="tel" name="phone" placeholder="Teléfono" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
-        <button type="submit" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 800; cursor: pointer;">Agendar Asesoría</button>
+        <input type="hidden" name="source" value="landing_page">
+        <input type="hidden" name="timestamp" class="form-timestamp">
+        <input type="text" name="name" aria-label="Nombre" placeholder="Nombre" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
+        <input type="email" name="email" aria-label="Correo" placeholder="Correo" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
+        <input type="tel" name="phone" aria-label="Teléfono" placeholder="Teléfono" style="flex: 1; min-width: 200px; padding: 12px; border: none; border-radius: 6px;" required>
+        <button type="button" onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 800; cursor: pointer;">Agendar Asesoría</button>
       </form>
     </section>
 
@@ -781,7 +786,7 @@ La presente información no constituye asesoría profesional ni consejo de inver
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
     <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">Agendar Asesoría</button>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'">Agendar Asesoría</button>
   </div>
 
   <!-- AJAX Feedback Script -->
@@ -797,14 +802,14 @@ La presente información no constituye asesoría profesional ni consejo de inver
       btn.innerHTML = 'Conectando al servidor...';
       
       try {
-        const response = await fetch('https://httpbin.org/post', {
+        const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/45123456/a1b2c3d4-e5f6-7890-abcd-ef1234567890', {
           method: 'POST',
           body: new FormData(form)
         });
         
         if (response.ok) {
           const data = await response.json();
-          console.log("Servidor procesó el lead:", data);
+          if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Lead registrado!';
           var oldBg = btn.style.backgroundColor;
           btn.style.backgroundColor = '#10b981';
@@ -816,10 +821,10 @@ La presente información no constituye asesoría profesional ni consejo de inver
             form.reset();
           }, 3000);
         } else {
-          throw new Error('Error en el backend');
+          if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
         }
       } catch (error) {
-        btn.innerHTML = 'Error de conexión';
+        btn.innerHTML = 'Servidor CRM no configurado';
         setTimeout(function() {
           btn.innerHTML = originalText;
           btn.disabled = false;
@@ -836,9 +841,11 @@ La presente información no constituye asesoría profesional ni consejo de inver
       <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
       <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
       <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 12px;">
-        <input type="text" name="name" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
+        <input type="hidden" name="source" value="landing_page">
+        <input type="hidden" name="timestamp" class="form-timestamp">
+        <input type="text" name="name" aria-label="Nombre completo" placeholder="Nombre completo" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
         <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
-        <textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
+        <textarea name="message" aria-label="Mensaje" placeholder="¿En qué podemos ayudarle?" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea>
         <div style="display: flex; gap: 12px; margin-top: 8px;">
           <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
           <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
@@ -856,14 +863,14 @@ La presente información no constituye asesoría profesional ni consejo de inver
       btn.disabled = true;
       
       try {
-        const response = await fetch('https://httpbin.org/post', {
+        const response = await fetch('https://api.hsforms.com/submissions/v3/integration/submit/45123456/a1b2c3d4-e5f6-7890-abcd-ef1234567890', {
           method: 'POST',
           body: new FormData(form)
         });
         
         if (response.ok) {
           const data = await response.json();
-          console.log("Backend response:", data);
+          if(window.gtag) gtag("event", "submit_success");
           btn.innerHTML = '✓ ¡Mensaje enviado!';
           btn.style.backgroundColor = '#10b981';
           setTimeout(function() {
@@ -874,10 +881,10 @@ La presente información no constituye asesoría profesional ni consejo de inver
             form.reset();
           }, 2000);
         } else {
-          throw new Error('Error en el backend');
+          if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
         }
       } catch(error) {
-        btn.innerHTML = 'Error de red';
+        btn.innerHTML = 'Error de Integración CRM';
         setTimeout(function() {
           btn.innerHTML = original;
           btn.disabled = false;
