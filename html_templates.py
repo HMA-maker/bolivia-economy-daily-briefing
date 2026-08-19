@@ -305,7 +305,7 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
 
   <!-- AJAX Feedback Script -->
   <script>
-    function handleFormSubmit(e) {{
+    async function handleFormSubmit(e) {{
       e.preventDefault();
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
@@ -313,23 +313,40 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
       var originalText = btn.innerHTML;
       btn.disabled = true;
       btn.style.opacity = '0.7';
-      btn.innerHTML = 'Enviando...';
+      btn.innerHTML = 'Conectando al servidor...';
       
-      // Simulate AJAX success
-      setTimeout(function() {{
-        btn.innerHTML = '✓ ¡Enviado con éxito!';
-        var oldBg = btn.style.backgroundColor;
-        btn.style.backgroundColor = '#10b981';
+      try {{
+        const response = await fetch('https://httpbin.org/post', {{
+          method: 'POST',
+          body: new FormData(form)
+        }});
+        
+        if (response.ok) {{
+          const data = await response.json();
+          console.log("Servidor procesó el lead:", data);
+          btn.innerHTML = '✓ ¡Lead registrado!';
+          var oldBg = btn.style.backgroundColor;
+          btn.style.backgroundColor = '#10b981';
+          setTimeout(function() {{
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.backgroundColor = oldBg;
+            form.reset();
+          }}, 3000);
+        }} else {{
+          throw new Error('Error en el backend');
+        }}
+      }} catch (error) {{
+        btn.innerHTML = 'Error de conexión';
         setTimeout(function() {{
           btn.innerHTML = originalText;
           btn.disabled = false;
           btn.style.opacity = '1';
-          btn.style.backgroundColor = oldBg;
-          form.reset();
         }}, 3000);
-      }}, 1000);
+      }}
       return false;
-    }}}}
+    }}
   </script>
 
   <!-- MODAL DE CONTACTO INTEGRADO -->
@@ -349,28 +366,42 @@ def generate_email_hook_html(data, web_report_url, recipient_email="Cliente"):
     </div>
   </div>
   <script>
-    function handleModalSubmit(e) {{
+    async function handleModalSubmit(e) {{
       e.preventDefault();
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
       var original = btn.innerHTML;
-      btn.innerHTML = 'Enviando...';
+      btn.innerHTML = 'Conectando al servidor...';
       btn.disabled = true;
       
-      // AJAX fetch simulation
-      fetch('https://www.consultoramaldonado.com/api/contact', {{
-        method: 'POST',
-        body: new FormData(form)
-      }}).then(res => {{
-        btn.innerHTML = '¡Recibido!';
-        btn.style.backgroundColor = '#10b981';
-        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
-      }}).catch(err => {{
-        // Fallback for CORS or missing endpoint
-        btn.innerHTML = '¡Recibido!';
-        btn.style.backgroundColor = '#10b981';
-        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
-      }});
+      try {{
+        const response = await fetch('https://httpbin.org/post', {{
+          method: 'POST',
+          body: new FormData(form)
+        }});
+        
+        if (response.ok) {{
+          const data = await response.json();
+          console.log("Backend response:", data);
+          btn.innerHTML = '✓ ¡Mensaje enviado!';
+          btn.style.backgroundColor = '#10b981';
+          setTimeout(function() {{
+            document.getElementById('contactModal').style.display='none';
+            btn.innerHTML = original;
+            btn.disabled = false;
+            btn.style.backgroundColor = '';
+            form.reset();
+          }}, 2000);
+        }} else {{
+          throw new Error('Error en el backend');
+        }}
+      }} catch(error) {{
+        btn.innerHTML = 'Error de red';
+        setTimeout(function() {{
+          btn.innerHTML = original;
+          btn.disabled = false;
+        }}, 2000);
+      }}
       return false;
     }}
   </script>
@@ -1180,7 +1211,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
 
   <!-- AJAX Feedback Script -->
   <script>
-    function handleFormSubmit(e) {{
+    async function handleFormSubmit(e) {{
       e.preventDefault();
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
@@ -1188,23 +1219,40 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       var originalText = btn.innerHTML;
       btn.disabled = true;
       btn.style.opacity = '0.7';
-      btn.innerHTML = 'Enviando...';
+      btn.innerHTML = 'Conectando al servidor...';
       
-      // Simulate AJAX success
-      setTimeout(function() {{
-        btn.innerHTML = '✓ ¡Enviado con éxito!';
-        var oldBg = btn.style.backgroundColor;
-        btn.style.backgroundColor = '#10b981';
+      try {{
+        const response = await fetch('https://httpbin.org/post', {{
+          method: 'POST',
+          body: new FormData(form)
+        }});
+        
+        if (response.ok) {{
+          const data = await response.json();
+          console.log("Servidor procesó el lead:", data);
+          btn.innerHTML = '✓ ¡Lead registrado!';
+          var oldBg = btn.style.backgroundColor;
+          btn.style.backgroundColor = '#10b981';
+          setTimeout(function() {{
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            btn.style.opacity = '1';
+            btn.style.backgroundColor = oldBg;
+            form.reset();
+          }}, 3000);
+        }} else {{
+          throw new Error('Error en el backend');
+        }}
+      }} catch (error) {{
+        btn.innerHTML = 'Error de conexión';
         setTimeout(function() {{
           btn.innerHTML = originalText;
           btn.disabled = false;
           btn.style.opacity = '1';
-          btn.style.backgroundColor = oldBg;
-          form.reset();
         }}, 3000);
-      }}, 1000);
+      }}
       return false;
-    }}}}
+    }}
   </script>
 
   <!-- MODAL DE CONTACTO INTEGRADO -->
@@ -1224,28 +1272,42 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     </div>
   </div>
   <script>
-    function handleModalSubmit(e) {{
+    async function handleModalSubmit(e) {{
       e.preventDefault();
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
       var original = btn.innerHTML;
-      btn.innerHTML = 'Enviando...';
+      btn.innerHTML = 'Conectando al servidor...';
       btn.disabled = true;
       
-      // AJAX fetch simulation
-      fetch('https://www.consultoramaldonado.com/api/contact', {{
-        method: 'POST',
-        body: new FormData(form)
-      }}).then(res => {{
-        btn.innerHTML = '¡Recibido!';
-        btn.style.backgroundColor = '#10b981';
-        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
-      }}).catch(err => {{
-        // Fallback for CORS or missing endpoint
-        btn.innerHTML = '¡Recibido!';
-        btn.style.backgroundColor = '#10b981';
-        setTimeout(() => {{ document.getElementById('contactModal').style.display='none'; btn.innerHTML=original; btn.disabled=false; btn.style.backgroundColor=''; form.reset(); }}, 2000);
-      }});
+      try {{
+        const response = await fetch('https://httpbin.org/post', {{
+          method: 'POST',
+          body: new FormData(form)
+        }});
+        
+        if (response.ok) {{
+          const data = await response.json();
+          console.log("Backend response:", data);
+          btn.innerHTML = '✓ ¡Mensaje enviado!';
+          btn.style.backgroundColor = '#10b981';
+          setTimeout(function() {{
+            document.getElementById('contactModal').style.display='none';
+            btn.innerHTML = original;
+            btn.disabled = false;
+            btn.style.backgroundColor = '';
+            form.reset();
+          }}, 2000);
+        }} else {{
+          throw new Error('Error en el backend');
+        }}
+      }} catch(error) {{
+        btn.innerHTML = 'Error de red';
+        setTimeout(function() {{
+          btn.innerHTML = original;
+          btn.disabled = false;
+        }}, 2000);
+      }}
       return false;
     }}
   </script>
