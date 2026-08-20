@@ -619,8 +619,26 @@
       color: var(--primary-navy);
       margin-top: 1.5em; margin-bottom: 0.5em;
     }
-    .report-markdown-content p, .report-markdown-content li {
-      color: #334155; line-height: 1.7; margin-bottom: 1em;
+    .report-markdown-content ul, .report-markdown-content ol {
+      padding-left: 28px;
+      margin-top: 0.5em;
+      margin-bottom: 1.2em;
+    }
+    .report-markdown-content ul ul, .report-markdown-content ol ol, .report-markdown-content ul ol, .report-markdown-content ol ul {
+      padding-left: 22px;
+      margin-top: 0.3em;
+      margin-bottom: 0.5em;
+    }
+    .report-markdown-content li {
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 0.6em;
+      padding-left: 4px;
+    }
+    .report-markdown-content p {
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 1em;
     }
     
     .analytics-accordion summary {
@@ -628,7 +646,7 @@
     }
     .analytics-accordion summary::-webkit-details-marker { display: none; }
     .analytics-accordion summary::after {
-      content: "BC"; font-size: 12px; transition: transform 0.3s ease; color: var(--accent-blue); margin-left: 10px;
+      content: "\25BC"; font-size: 12px; transition: transform 0.3s ease; color: var(--accent-blue); margin-left: 10px;
     }
     .analytics-accordion[open] summary::after {
       transform: rotate(180deg);
