@@ -483,9 +483,40 @@ def execute_composio_action(api_key, tool_slug, arguments):
             return data
     return None
 
-def publish_and_send_briefing(composio_api_key, database_id, title, full_markdown, recipient_email, subject, email_html):
+def send_email_via_resend(api_key, from_email, recipient_email, subject, email_html):
+    """
+    Envía el correo ejecutivo transaccional usando la API REST de Resend.
+    Soporta remitente corporativo (ej: 'Consultora Maldonado <do-not-reply@consultoramaldonado.com>')
+    y destinatario único o lista separada por comas.
+    """
+    if isinstance(recipient_email, str):
+        recipients = [r.strip() for r in recipient_email.split(",") if r.strip()]
+    else:
+        recipients = list(recipient_email)
+        
+    url = "https://api.resend.com/emails"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "from": from_email,
+        "to": recipients,
+        "subject": subject,
+        "html": email_html
+    }
+    resp = requests.post(url, json=payload, headers=headers, timeout=30)
+    if resp.status_code in (200, 201):
+        data = resp.json()
+        email_id = data.get("id", "N/A")
+        print(f"[+] Correo ejecutivo enviado exitosamente vía Resend! (ID: {email_id})")
+        return data
+    else:
+        raise Exception(f"Resend API Error ({resp.status_code}): {resp.text}")
+
+def publish_and_send_briefing(resend_api_key, sender_email, composio_api_key, database_id, title, full_markdown, recipient_email, subject, email_html):
     # 1. Respaldo silencioso en Notion (si está configurado)
-    if database_id:
+    if database_id and composio_api_key:
         print(f"[*] Guardando respaldo en Notion: '{title}'...")
         try:
             notion_resp = execute_composio_action(
@@ -506,28 +537,56 @@ def publish_and_send_briefing(composio_api_key, database_id, title, full_markdow
         except Exception as e:
             print(f"[!] Respaldo en Notion omitido o con error (no crítico): {e}")
 
-    # 2. Envío de Correo Electrónico (El Gancho) vía Gmail
-    print(f"[*] Enviando correo ejecutivo 'Gancho' vía Gmail a: {recipient_email}...")
-    try:
-        gmail_resp = execute_composio_action(
-            composio_api_key,
-            "GMAIL_SEND_EMAIL",
-            {
-                "recipient_email": recipient_email,
-                "subject": subject,
-                "body": email_html,
-                "is_html": True
-            }
-        )
-        if gmail_resp and gmail_resp.get("successful"):
-            print(f"[+] Correo ejecutivo enviado exitosamente vía Composio!")
-        else:
-            print(f"[-] Respuesta Gmail: {gmail_resp}")
-    except Exception as e:
-        print(f"[!] Error enviando correo por Gmail vía Composio: {e}")
+    # 2. Envío de Correo Electrónico (El Gancho) vía Resend o Composio (Gmail)
+    if resend_api_key:
+        print(f"[*] Enviando correo ejecutivo 'Gancho' vía Resend desde '{sender_email}' a '{recipient_email}'...")
+        try:
+            send_email_via_resend(resend_api_key, sender_email, recipient_email, subject, email_html)
+        except Exception as e:
+            print(f"[!] Error enviando correo por Resend: {e}")
+            if composio_api_key:
+                print("[*] Intentando fallback de envío por Composio (Gmail)...")
+                try:
+                    gmail_resp = execute_composio_action(
+                        composio_api_key,
+                        "GMAIL_SEND_EMAIL",
+                        {
+                            "recipient_email": recipient_email,
+                            "subject": subject,
+                            "body": email_html,
+                            "is_html": True
+                        }
+                    )
+                    if gmail_resp and gmail_resp.get("successful"):
+                        print("[+] Correo ejecutivo enviado exitosamente vía Composio (fallback)!")
+                except Exception as ex_fallback:
+                    print(f"[!] Error en fallback de Gmail: {ex_fallback}")
+    elif composio_api_key:
+        print(f"[*] Enviando correo ejecutivo 'Gancho' vía Gmail (Composio) a: {recipient_email}...")
+        try:
+            gmail_resp = execute_composio_action(
+                composio_api_key,
+                "GMAIL_SEND_EMAIL",
+                {
+                    "recipient_email": recipient_email,
+                    "subject": subject,
+                    "body": email_html,
+                    "is_html": True
+                }
+            )
+            if gmail_resp and gmail_resp.get("successful"):
+                print(f"[+] Correo ejecutivo enviado exitosamente vía Composio!")
+            else:
+                print(f"[-] Respuesta Gmail: {gmail_resp}")
+        except Exception as e:
+            print(f"[!] Error enviando correo por Gmail vía Composio: {e}")
+    else:
+        print("[-] Aviso: No se configuró RESEND_API_KEY ni COMPOSIO_API_KEY. Envío de correo omitido.")
 
 def main():
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
+    resend_api_key = os.environ.get("RESEND_API_KEY")
+    sender_email = os.environ.get("SENDER_EMAIL", "Consultora Maldonado <do-not-reply@consultoramaldonado.com>")
     composio_api_key = os.environ.get("COMPOSIO_API_KEY")
     exa_api_key = os.environ.get("EXA_API_KEY")
     fmp_api_key = os.environ.get("FMP_API_KEY")
@@ -539,9 +598,8 @@ def main():
         print("[!] Error: GEMINI_API_KEY no está configurada en las variables de entorno.")
         sys.exit(1)
 
-    if not composio_api_key:
-        print("[!] Error: COMPOSIO_API_KEY no está configurada en las variables de entorno.")
-        sys.exit(1)
+    if not resend_api_key and not composio_api_key:
+        print("[-] Aviso: Ni RESEND_API_KEY ni COMPOSIO_API_KEY están configuradas. El correo no será enviado.")
 
     fecha_str, fecha_iso = get_current_date()
     title = f"🇧🇴 Resumen Ejecutivo: Macroeconomía de Bolivia — {fecha_str}"
@@ -572,8 +630,10 @@ def main():
     nombre_cliente = extract_first_name(recipient_email)
     email_html = generate_email_hook_html(data_dict, site_base_url, nombre_cliente)
 
-    # 5. Publicar respaldo en Notion y Enviar por Gmail mediante Composio
+    # 5. Publicar respaldo en Notion y Enviar por Resend (o Gmail mediante Composio)
     publish_and_send_briefing(
+        resend_api_key,
+        sender_email,
         composio_api_key,
         database_id,
         title,

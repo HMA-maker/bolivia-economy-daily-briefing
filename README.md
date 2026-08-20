@@ -16,7 +16,7 @@ graph TD
     C --> F[html_templates.py: Email Gancho con Snapshot & CTA]
     D --> G[docs/assets/infografia-latest.png]
     E --> H[docs/index.html & docs/reports/YYYY-MM-DD.html]
-    F --> I[Composio: Envio por Gmail]
+    F --> I[Resend API: do-not-reply@consultoramaldonado.com]
     C --> J[Composio: Respaldo Silencioso en Notion]
     H --> K[GitHub Pages: informe.consultoramaldonado.com]
 ```
@@ -29,7 +29,7 @@ graph TD
 | :--- | :--- | :--- |
 | **Infografía Visual** | Imagen PNG (1200x675 px) | Generada con `Pillow`. Tarjeta gráfica con KPIs, nivel de riesgo y paleta institucional de Consultora Maldonado. Se usa en el email y como `og:image` en redes. |
 | **Landing Page Diaria** | HTML5 / CSS Vanilla / Schema.org | Publicada en `docs/` para **GitHub Pages** (`https://informe.consultoramaldonado.com`). Incluye análisis exhaustivo de deuda, bonos soberanos, selector histórico y SEO/GEO. |
-| **Correo Gancho (Email)** | HTML Inline ultra-ligero | Enviado a `consultoramaldonado@gmail.com`. Incluye la infografía, Matriz TL;DR de alertas (🔴/🟡/🟢), 3 bloques snapshot y botón CTA para visitar la web. |
+| **Correo Gancho (Email)** | HTML Inline ultra-ligero | Enviado vía **Resend** desde `do-not-reply@consultoramaldonado.com`. Incluye la infografía, Matriz TL;DR de alertas (🔴/🟡/🟢), 3 bloques snapshot y botón CTA para visitar la web. |
 | **Respaldo Privado** | Notion Database API | Copia de seguridad estructurada en Notion en segundo plano sin costo. |
 
 ---
@@ -55,11 +55,15 @@ Configura tu archivo `.env` local o en **GitHub Repository Secrets**:
 ```env
 # Claves API requeridas
 GEMINI_API_KEY=tu_api_key_de_google_gemini
+RESEND_API_KEY=re_tu_resend_api_key
 COMPOSIO_API_KEY=ck_r_tu_composio_api_key
+EXA_API_KEY=tu_exa_api_key
+FMP_API_KEY=tu_fmp_api_key
 
-# Configuración de publicación y entrega
-NOTION_DATABASE_ID=3ba5d0f0-6844-8066-93f3-dfbc26b037f0
+# Configuración de correo corporativo y entrega
+SENDER_EMAIL=Consultora Maldonado <do-not-reply@consultoramaldonado.com>
 RECIPIENT_EMAIL=consultoramaldonado@gmail.com
+NOTION_DATABASE_ID=3ba5d0f0-6844-8066-93f3-dfbc26b037f0
 
 # URL base del sitio web en GitHub Pages / Subdominio
 SITE_BASE_URL=https://informe.consultoramaldonado.com

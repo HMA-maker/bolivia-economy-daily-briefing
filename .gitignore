@@ -9,3 +9,20 @@ ENV/
 .idea/
 .vscode/
 *.log
+
+# Scripts temporales y de pruebas
+fix_*.py
+test_*.py
+test_*.html
+apply_*.py
+update_*.py
+clean_*.py
+remove_*.py
+patch_*.py
+preview_*.py
+preview.html
+live.html
+rearrange.py
+script.py
+old_template.py
+
