@@ -1202,7 +1202,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
         </div>
       </a>
       <div class="nav-links">
-        <a href="https://www.consultoramaldonado.com/informe_financiero" class="active">Informe Financiero</a>
+        <a href="https://www.consultoramaldonado.com" class="active">Informe Financiero</a>
         <a href="https://www.consultoramaldonado.com/cotizaci%C3%B3n-d%C3%B3lar">Cotización Dólar</a>
         <a href="https://www.consultoramaldonado.com/feriados-en-bolivia">Feriados en Bolivia</a>
         <a href="https://www.consultoramaldonado.com/terminos-y-condiciones-de-uso">Términos y Condiciones</a>
