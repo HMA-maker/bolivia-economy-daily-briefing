@@ -576,7 +576,212 @@
     .report-card li {
       margin-bottom: 0.5em;
     }
-</style>
+
+    /* MODAL RESPONSIVE COMPLETO & SCROLL EN MOVILES / IFRAME */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(9, 26, 43, 0.78);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      box-sizing: border-box;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal-dialog {
+      background: #ffffff;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 90vh;
+      max-height: 90dvh;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch;
+      padding: 24px 20px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+      text-align: left;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #f1f5f9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .modal-close-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .modal-title {
+      margin: 0 0 6px 0;
+      color: var(--primary-navy);
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 800;
+      padding-right: 32px;
+    }
+
+    .modal-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 16px 0;
+      line-height: 1.4;
+    }
+
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    .form-input {
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background: #ffffff;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+
+    .form-textarea {
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      width: 100%;
+      height: 55px;
+      resize: vertical;
+      box-sizing: border-box;
+      font-size: 13px;
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background: #ffffff;
+      outline: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-modal-cancel {
+      flex: 1;
+      padding: 11px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 13.5px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-modal-cancel:hover {
+      background: #f1f5f9;
+    }
+
+    .btn-modal-submit {
+      flex: 1.5;
+      padding: 11px;
+      border: none;
+      background: var(--cm-gold);
+      color: var(--primary-navy);
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 13.5px;
+      box-shadow: 0 2px 6px rgba(238, 161, 10, 0.3);
+      transition: opacity 0.2s ease;
+    }
+
+    .btn-modal-submit:hover {
+      opacity: 0.92;
+    }
+
+    @media (max-width: 600px) {
+      .modal-overlay {
+        padding: 10px;
+        align-items: flex-start;
+      }
+      .modal-dialog {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 20px 16px;
+        max-height: 86vh;
+        max-height: 86dvh;
+      }
+      .modal-title {
+        font-size: 17px;
+      }
+      .modal-desc {
+        font-size: 12px;
+        margin-bottom: 12px;
+      }
+      .form-input, .form-textarea {
+        font-size: 14px;
+        padding: 9px 10px;
+      }
+      .form-textarea {
+        height: 48px;
+      }
+    }
+
+    </style>
 </head>
 <body>
 
@@ -755,7 +960,7 @@
         <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 12px; border: none; border-radius: 6px;"></div>
         <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Correo corporativo</label><input type="email" name="email" placeholder="ejemplo@empresa.com" required style="padding: 12px; border: none; border-radius: 6px;"></div>
         <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Teléfono / WhatsApp</label><input type="tel" name="phone" placeholder="+591 70000000" required style="padding: 12px; border: none; border-radius: 6px;"></div>
-        <button type="button" onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 900; cursor: pointer;">Agendar Asesoría</button>
+        <button type="button" onclick="openContactModal(); return false;" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 900; cursor: pointer;">Agendar Asesoría</button>
       
 </form>
     </section>
@@ -821,7 +1026,7 @@ La presente información no constituye asesoría profesional ni consejo de inver
         <button class="share-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 900; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
           💬 Obtener Análisis Profundo
         </button>
-        <button class="share-btn" onclick="document.getElementById('contactModal').style.display='flex'" style="background: #25D366; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Contacto Directo</button>
+        <button class="share-btn" onclick="openContactModal(); return false;" style="background: #25D366; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Contacto Directo</button>
       </div>
     </section>
 
@@ -848,7 +1053,7 @@ La presente información no constituye asesoría profesional ni consejo de inver
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
     <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'; return false;" style="font-weight:900;">💬 Abrir Formulario de Contacto</button>
+    <button class="sticky-cta-btn" onclick="openContactModal(); return false;" style="font-weight:900;">💬 Abrir Formulario de Contacto</button>
   </div>
 
   <!-- AJAX Feedback Script -->
@@ -906,24 +1111,41 @@ La presente información no constituye asesoría profesional ni consejo de inver
     }}
   </script>
 
-  <!-- MODAL DE CONTACTO INTEGRADO -->
-  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-      <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
-      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
-      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
-
-        <input type="hidden" name="source" value="landing_page">
-        <input type="hidden" name="timestamp" class="form-timestamp">
-        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;"></div>
-        <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
-        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Mensaje</label><textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea></div>
-        <div style="display: flex; gap: 12px; margin-top: 8px;">
-          <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
-          <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
-        </div>
+    <!-- MODAL DE CONTACTO & ASESORIA DIRECTIVA (RESPONSIVE CON SCROLL GARANTIZADO) -->
+  <div id="contactModal" class="modal-overlay" onclick="if(event.target===this)closeContactModal();">
+    <div class="modal-dialog">
+      <button type="button" class="modal-close-btn" onclick="closeContactModal()">&times;</button>
+      <h3 class="modal-title">Suscripción y Contacto Directivo</h3>
+      <p class="modal-desc">Complete sus datos para recibir el boletín matutino o agendar una consulta con el equipo de Consultora Maldonado.</p>
       
-</form>
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" class="modal-form">
+        <input type="hidden" name="source" value="modal_contacto">
+        
+        <div class="form-group">
+          <label class="form-label">Nombre y Apellido</label>
+          <input type="text" name="name" placeholder="Ej. Juan Pérez" required class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Correo Electrónico</label>
+          <input type="email" name="email" placeholder="juan.perez@empresa.com" required class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Empresa / Organización (Opcional)</label>
+          <input type="text" name="empresa" placeholder="Ej. Banco / Importadora / Inversiones" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mensaje o Consulta Específica (Opcional)</label>
+          <textarea name="message" placeholder="Deseo recibir el reporte diario matutino..." class="form-textarea"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" onclick="closeContactModal()" class="btn-modal-cancel">Cerrar</button>
+          <button type="submit" class="btn-modal-submit">Registrar Datos</button>
+        </div>
+      </form>
     </div>
   </div>
   <script>
@@ -954,7 +1176,7 @@ La presente información no constituye asesoría profesional ni consejo de inver
           btn.innerHTML = '✓ ¡Lead registrado!';
           btn.style.backgroundColor = '#10b981';
           setTimeout(function() {
-            document.getElementById('contactModal').style.display='none';
+            closeContactModal();
             btn.innerHTML = original;
             btn.disabled = false;
             btn.style.backgroundColor = '';
