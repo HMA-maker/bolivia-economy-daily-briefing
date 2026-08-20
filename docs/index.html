@@ -942,16 +942,23 @@
     </details>
     
 
-    <!-- UNIFIED CRO FORM -->
-    <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 36px 32px; margin-top: 40px; margin-bottom: 32px; text-align: center; color: #fff; box-shadow: 0 10px 25px rgba(13, 59, 102, 0.15);">
-      <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 900; margin-bottom: 12px;">¿Necesita asesoría corporativa sobre estos datos?</h3>
-      <p style="font-size: 15px; color: #cbd5e1; margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto;">Suscríbase al reporte diario o agende una sesión de análisis profundo con nuestros expertos financieros para su junta directiva.</p>
-      <form id="unified-contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
-        <input type="hidden" name="source" value="landing_unified">
-        <input type="text" name="name" placeholder="Nombre completo" required style="padding: 14px 18px; border: none; border-radius: 6px; font-size: 14px; min-width: 200px; flex: 1;">
-        <input type="email" name="email" placeholder="Correo corporativo" required style="padding: 14px 18px; border: none; border-radius: 6px; font-size: 14px; min-width: 200px; flex: 1;">
-        <button type="submit" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 14px 28px; border-radius: 6px; font-weight: 900; cursor: pointer; transition: transform 0.2s; white-space: nowrap;">Contactar Analista Corporativo</button>
-      </form>
+        <!-- SECCIÓN CRO: SUSCRIPCIÓN AL BOLETÍN DIARIO & CONTACTO -->
+    <section style="background: linear-gradient(135deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 40px 32px; margin-top: 40px; margin-bottom: 32px; text-align: center; color: #fff; box-shadow: 0 10px 25px rgba(13, 59, 102, 0.2); border: 1px solid rgba(255,255,255,0.1);">
+      <div style="max-width: 700px; margin: 0 auto;">
+        <span style="background: var(--accent-gold); color: var(--primary-navy); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">Suscripción Gratuita</span>
+        <h3 style="font-family: var(--font-heading); font-size: 24px; font-weight: 900; margin-top: 14px; margin-bottom: 10px;">Reciba el Resumen Ejecutivo Diario en su Correo</h3>
+        <p style="font-size: 14.5px; color: #cbd5e1; margin-bottom: 24px; line-height: 1.5;">Únase a líderes empresariales, gerentes y tomadores de decisiones que reciben todas las mañanas el análisis macroeconómico de Bolivia con cifras verificadas y alertas de riesgo.</p>
+        
+        <form id="unified-contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+          <input type="hidden" name="source" value="suscripcion_diaria_landing">
+          <input type="hidden" name="action_type" value="Suscripción Diario">
+          <input type="text" name="name" placeholder="Nombre completo" required style="padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; min-width: 180px; flex: 1; outline: none; background: #fff; color: #1e293b;">
+          <input type="email" name="email" placeholder="Correo corporativo o personal" required style="padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; min-width: 220px; flex: 1.2; outline: none; background: #fff; color: #1e293b;">
+          <input type="text" name="empresa" placeholder="Empresa / Cargo (Opcional)" style="padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; min-width: 170px; flex: 1; outline: none; background: #fff; color: #1e293b;">
+          <button type="submit" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 14px 28px; border-radius: 6px; font-weight: 900; cursor: pointer; transition: transform 0.2s, background 0.2s; white-space: nowrap; font-size: 14px;">Suscribirme al Reporte</button>
+        </form>
+        <p style="font-size: 11.5px; color: #94a3b8; margin-top: 14px; margin-bottom: 0;">🔒 Cero spam. Datos protegidos para uso exclusivo del informe financiero de Consultora Maldonado.</p>
+      </div>
     </section>
     
     </article>
@@ -967,14 +974,13 @@
 <option value="https://informe.consultoramaldonado.com/reports/2026-08-18.html" >18 de agosto de 2026</option>
 <option value="https://informe.consultoramaldonado.com/reports/2026-08-17.html" >17 de agosto de 2026</option>
 <option value="https://informe.consultoramaldonado.com/reports/2026-08-16.html" >16 de agosto de 2026</option>
-
         </select>
       </div>
       <div style="display: flex; gap: 8px;">
-        <button class="share-btn" onclick="window.scrollTo(0, document.body.scrollHeight)" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 900; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
-          💬 Obtener Análisis Profundo
+        <button class="share-btn" onclick="document.getElementById('contactModal').style.display='flex'; return false;" style="background: var(--accent-gold); color: var(--primary-navy); font-weight: 900; padding: 10px 18px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); border: 2px solid var(--accent-gold); cursor: pointer;">
+          💬 Solicitar Asesoría Directiva
         </button>
-        <button class="share-btn" onclick="document.getElementById('contactModal').style.display='flex'" style="background: #25D366; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Contacto Directo</button>
+        <button class="share-btn" onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });" style="background: #25D366; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; cursor: pointer;">Suscripción Rápida</button>
       </div>
     </section>
 
@@ -994,138 +1000,173 @@
     </div>
   </footer>
 
-
-  
-
-
   <!-- STICKY FOOTER CTA -->
   <div class="sticky-cta">
-    <p>¿Requiere análisis detallado para su junta directiva?</p>
-    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'; return false;" style="font-weight:900;">💬 Abrir Formulario de Contacto</button>
+    <p>¿Desea recibir el análisis diario o asesoría personalizada?</p>
+    <button class="sticky-cta-btn" onclick="document.getElementById('contactModal').style.display='flex'; return false;" style="font-weight:900;">💬 Suscribirse / Contacto</button>
   </div>
 
-  <!-- AJAX Feedback Script -->
+  <!-- MODAL DE CONTACTO & ASESORÍA DIRECTIVA -->
+  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.65); z-index: 9999; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(3px);">
+    <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 440px; padding: 28px; box-shadow: 0 15px 35px rgba(0,0,0,0.25); text-align: left; position: relative;">
+      <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8;">&times;</button>
+      <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading); font-size: 20px; margin-bottom: 6px;">Suscripción y Contacto Directivo</h3>
+      <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4;">Complete sus datos para recibir el boletín matutino o agendar una consulta con el equipo de Consultora Maldonado.</p>
+      
+      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <input type="hidden" name="source" value="modal_contacto">
+        
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Nombre y Apellido</label>
+          <input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Correo Electrónico</label>
+          <input type="email" name="email" placeholder="juan.perez@empresa.com" required style="padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Empresa / Organización (Opcional)</label>
+          <input type="text" name="empresa" placeholder="Ej. Banco / Importadora / Inversiones" style="padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; box-sizing: border-box; font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="font-size: 12px; font-weight: 700; color: #475569; display: block; margin-bottom: 4px;">Mensaje o Consulta Específica (Opcional)</label>
+          <textarea name="message" placeholder="Deseo recibir el reporte diario matutino..." style="padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 65px; resize: none; box-sizing: border-box; font-size: 13px;"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600; font-size: 14px;">Cerrar</button>
+          <button type="submit" style="flex: 1.5; padding: 12px; border: none; background: var(--accent-gold); color: var(--primary-navy); border-radius: 6px; cursor: pointer; font-weight: 900; font-size: 14px;">Registrar Datos</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT DE ENVÍO Y CAPTURA DE DATOS A GOOGLE SHEETS / CRM -->
   <script>
+    const GOOGLE_SCRIPT_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyutppEe_GZqwaPeWKiWrkohhBcM1rxpyP2g_0IoEF83OiDuI3A1x62LnhloMq0a2f43Q/exec";
+
+    async function sendSubscriberData(payload) {
+      if (GOOGLE_SCRIPT_WEBHOOK_URL && GOOGLE_SCRIPT_WEBHOOK_URL.includes("script.google.com")) {
+        try {
+          await fetch(GOOGLE_SCRIPT_WEBHOOK_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          return true;
+        } catch (err) {
+          console.warn("Fallo temporal enviando a Google Apps Script, intentando fallback:", err);
+        }
+      }
+      
+      try {
+        payload['_captcha'] = 'false';
+        payload['_subject'] = 'Nuevo Registro / Suscriptor - Consultora Maldonado';
+        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        return response.ok && (data.success === "true" || data.success === true);
+      } catch (err) {
+        console.error("Error en servicio de formulario:", err);
+        return false;
+      }
+    }
+
     async function handleFormSubmit(e) {
       e.preventDefault();
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
-      if(!btn) return false;
+      if (!btn) return false;
       var originalText = btn.innerHTML;
       btn.disabled = true;
       btn.style.opacity = '0.7';
-      btn.innerHTML = 'Enviando al CRM...';
-      
+      btn.innerHTML = 'Guardando registro...';
+
       const formData = new FormData(form);
       const jsonPayload = Object.fromEntries(formData.entries());
-      
-      // Añadimos campos obligatorios para FormSubmit
-      jsonPayload['_captcha'] = 'false';
-      jsonPayload['_subject'] = 'Nuevo Lead - Landing Page Consultora Maldonado';
-      
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(jsonPayload)
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success === "true") {
-          if(window.gtag) gtag("event", "submit_success");
-          btn.innerHTML = '✓ ¡Lead registrado!';
-          var oldBg = btn.style.backgroundColor;
-          btn.style.backgroundColor = '#10b981';
-          setTimeout(function() {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            btn.style.opacity = '1';
-            btn.style.backgroundColor = oldBg;
-            form.reset();
-          }, 3000);
-        } else {
-          if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
-        }
-      } catch (error) {
-        btn.innerHTML = 'Fallo en CRM. Reintentar.';
+
+      const success = await sendSubscriberData(jsonPayload);
+
+      if (success !== false) {
+        if (window.gtag) gtag("event", "lead_subscribed");
+        btn.innerHTML = '✓ ¡Suscripción confirmada!';
+        btn.style.backgroundColor = '#10b981';
+        btn.style.color = '#ffffff';
         setTimeout(function() {
           btn.innerHTML = originalText;
           btn.disabled = false;
           btn.style.opacity = '1';
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
+          form.reset();
+        }, 3500);
+      } else {
+        btn.innerHTML = 'Error al registrar. Reintentar';
+        btn.style.backgroundColor = '#ef4444';
+        btn.style.color = '#ffffff';
+        setTimeout(function() {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
         }, 3000);
       }
       return false;
-    }}
-  </script>
+    }
 
-  <!-- MODAL DE CONTACTO INTEGRADO -->
-  <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #fff; border-radius: 12px; width: 100%; max-width: 400px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-      <h3 style="margin-top: 0; color: var(--primary-navy); font-family: var(--font-heading);">Contacto Corporativo</h3>
-      <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Envíe su consulta directamente a nuestros asesores.</p>
-      <form id="modal-form" onsubmit="return handleModalSubmit(event)" style="display: flex; flex-direction: column; gap: 16px;">
-
-        <input type="hidden" name="source" value="landing_page">
-        <input type="hidden" name="timestamp" class="form-timestamp">
-        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;"></div>
-        <input type="email" name="email" placeholder="Correo electrónico" required style="padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%;">
-        <div style="display:flex; flex-direction:column; gap:4px; text-align:left;"><label style="font-size:13px; font-weight:700; color:#475569;">Mensaje</label><textarea name="message" placeholder="¿En qué podemos ayudarle?" required style="padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; height: 80px; resize: none;"></textarea></div>
-        <div style="display: flex; gap: 12px; margin-top: 8px;">
-          <button type="button" onclick="document.getElementById('contactModal').style.display='none'" style="flex: 1; padding: 12px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer; color: var(--text-dark); font-weight: 600;">Cancelar</button>
-          <button type="submit" style="flex: 1; padding: 12px; border: none; background: var(--accent-blue); border-radius: 6px; cursor: pointer; color: #fff; font-weight: 600;">Enviar vía Fetch</button>
-        </div>
-      
-</form>
-    </div>
-  </div>
-  <script>
     async function handleModalSubmit(e) {
       e.preventDefault();
       var form = e.target;
       var btn = form.querySelector('button[type="submit"]');
-      var original = btn.innerHTML;
-      btn.innerHTML = 'Enviando al CRM...';
+      if (!btn) return false;
+      var originalText = btn.innerHTML;
       btn.disabled = true;
-      
+      btn.style.opacity = '0.7';
+      btn.innerHTML = 'Enviando...';
+
       const formData = new FormData(form);
       const jsonPayload = Object.fromEntries(formData.entries());
-      jsonPayload['_captcha'] = 'false';
-      jsonPayload['_subject'] = 'Nuevo Mensaje - Landing Page Consultora Maldonado';
-      
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/info@consultoramaldonado.com', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(jsonPayload)
-        });
-        
-        const data = await response.json();
-        
-        if (response.ok && data.success === "true") {
-          if(window.gtag) gtag("event", "submit_success");
-          btn.innerHTML = '✓ ¡Lead registrado!';
-          btn.style.backgroundColor = '#10b981';
-          setTimeout(function() {
-            document.getElementById('contactModal').style.display='none';
-            btn.innerHTML = original;
-            btn.disabled = false;
-            btn.style.backgroundColor = '';
-            form.reset();
-          }, 2000);
-        } else {
-          if(window.gtag) gtag("event", "submit_error"); throw new Error("Error CRM");
-        }
-      } catch(error) {
-        btn.innerHTML = 'Fallo en CRM. Reintentar.';
+
+      const success = await sendSubscriberData(jsonPayload);
+
+      if (success !== false) {
+        if (window.gtag) gtag("event", "modal_contact_success");
+        btn.innerHTML = '✓ ¡Datos registrados!';
+        btn.style.backgroundColor = '#10b981';
+        btn.style.color = '#ffffff';
         setTimeout(function() {
-          btn.innerHTML = original;
+          document.getElementById('contactModal').style.display = 'none';
+          btn.innerHTML = originalText;
           btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
+          form.reset();
         }, 2000);
+      } else {
+        btn.innerHTML = 'Error de envío. Reintentar';
+        btn.style.backgroundColor = '#ef4444';
+        btn.style.color = '#ffffff';
+        setTimeout(function() {
+          btn.innerHTML = originalText;
+          btn.disabled = false;
+          btn.style.opacity = '1';
+          btn.style.backgroundColor = '';
+          btn.style.color = '';
+        }, 3000);
       }
       return false;
-    }}
+    }
   </script>
+
 
   <script>
     window.addEventListener('resize', function() {

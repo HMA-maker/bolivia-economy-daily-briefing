@@ -397,7 +397,7 @@ def update_historical_archive(docs_dir, fecha_str, fecha_iso, base_url):
 
     return reports
 
-def build_web_landing_pages(data_dict, full_markdown, docs_dir, base_url):
+def build_web_landing_pages(data_dict, full_markdown, docs_dir, base_url, google_script_webhook_url=""):
     """
     Genera el HTML de la Landing Page principal (index.html) y la copia histórica (reports/YYYY-MM-DD.html).
     """
@@ -417,7 +417,8 @@ def build_web_landing_pages(data_dict, full_markdown, docs_dir, base_url):
         markdown_content=full_markdown,
         archive_list=archive_list,
         base_url=base_url,
-        canonical_url=f"{base_url}/"
+        canonical_url=f"{base_url}/",
+        google_script_webhook_url=google_script_webhook_url
     )
     index_path = os.path.join(docs_dir, "index.html")
     with open(index_path, "w", encoding="utf-8") as f:
@@ -430,7 +431,8 @@ def build_web_landing_pages(data_dict, full_markdown, docs_dir, base_url):
         markdown_content=full_markdown,
         archive_list=archive_list,
         base_url=base_url,
-        canonical_url=f"{base_url}/reports/{fecha_iso}.html"
+        canonical_url=f"{base_url}/reports/{fecha_iso}.html",
+        google_script_webhook_url=google_script_webhook_url
     )
     daily_report_path = os.path.join(reports_dir, f"{fecha_iso}.html")
     with open(daily_report_path, "w", encoding="utf-8") as f:
@@ -483,11 +485,61 @@ def execute_composio_action(api_key, tool_slug, arguments):
             return data
     return None
 
+def fetch_active_subscribers(sheet_csv_url=None, fallback_email=None):
+    """
+    Obtiene la lista de suscriptores activos desde la URL de exportación CSV de Google Sheets.
+    Si no hay URL o falla la conexión, utiliza el correo de respaldo (fallback_email).
+    Retorna una lista de dicts: [{'email': str, 'name': str, 'empresa': str}]
+    """
+    subscribers = []
+    
+    if sheet_csv_url and sheet_csv_url.startswith("http"):
+        print(f"[*] Consultando lista de suscriptores en Google Sheets...")
+        try:
+            resp = requests.get(sheet_csv_url, timeout=15)
+            if resp.status_code == 200:
+                import csv
+                import io
+                reader = csv.DictReader(io.StringIO(resp.text))
+                for row in reader:
+                    # Normalizar nombres de columnas a minúsculas
+                    cleaned = {str(k).strip().lower(): str(v).strip() for k, v in row.items() if k is not None}
+                    email = cleaned.get("email") or cleaned.get("correo") or cleaned.get("correo electrónico")
+                    estado = cleaned.get("estado") or cleaned.get("status") or "ACTIVO"
+                    nombre = cleaned.get("nombre") or cleaned.get("name") or ""
+                    empresa = cleaned.get("empresa") or cleaned.get("company") or ""
+
+                    if email and "@" in email:
+                        # Filtrar solo estados activos
+                        if estado.upper() in ["ACTIVO", "ACTIVE", "SI", "SÍ", "TRUE", "1", ""]:
+                            subscribers.append({
+                                "email": email,
+                                "name": nombre if nombre else extract_first_name(email),
+                                "empresa": empresa
+                            })
+                print(f"[+] {len(subscribers)} suscriptores activos recuperados desde Google Sheets.")
+            else:
+                print(f"[!] Aviso: Google Sheets respondió con status {resp.status_code}.")
+        except Exception as e:
+            print(f"[!] Error al leer Google Sheets CSV: {e}")
+
+    # Si no se obtuvieron suscriptores desde Sheets o no hay URL, usar fallback
+    if not subscribers and fallback_email:
+        print(f"[*] Usando lista de respaldo configurada (RECIPIENT_EMAIL): {fallback_email}")
+        for em in fallback_email.split(","):
+            em_clean = em.strip()
+            if em_clean and "@" in em_clean:
+                subscribers.append({
+                    "email": em_clean,
+                    "name": extract_first_name(em_clean),
+                    "empresa": ""
+                })
+
+    return subscribers
+
 def send_email_via_resend(api_key, from_email, recipient_email, subject, email_html):
     """
     Envía el correo ejecutivo transaccional usando la API REST de Resend.
-    Soporta remitente corporativo (ej: 'Consultora Maldonado <do-not-reply@consultoramaldonado.com>')
-    y destinatario único o lista separada por comas.
     """
     if isinstance(recipient_email, str):
         recipients = [r.strip() for r in recipient_email.split(",") if r.strip()]
@@ -509,12 +561,12 @@ def send_email_via_resend(api_key, from_email, recipient_email, subject, email_h
     if resp.status_code in (200, 201):
         data = resp.json()
         email_id = data.get("id", "N/A")
-        print(f"[+] Correo ejecutivo enviado exitosamente vía Resend! (ID: {email_id})")
+        print(f"[+] Correo enviado vía Resend a {recipients}! (ID: {email_id})")
         return data
     else:
         raise Exception(f"Resend API Error ({resp.status_code}): {resp.text}")
 
-def publish_and_send_briefing(resend_api_key, sender_email, composio_api_key, database_id, title, full_markdown, recipient_email, subject, email_html):
+def publish_and_send_briefing(resend_api_key, sender_email, composio_api_key, database_id, title, full_markdown, subscribers, subject, data_dict, site_base_url):
     # 1. Respaldo silencioso en Notion (si está configurado)
     if database_id and composio_api_key:
         print(f"[*] Guardando respaldo en Notion: '{title}'...")
@@ -537,51 +589,61 @@ def publish_and_send_briefing(resend_api_key, sender_email, composio_api_key, da
         except Exception as e:
             print(f"[!] Respaldo en Notion omitido o con error (no crítico): {e}")
 
-    # 2. Envío de Correo Electrónico (El Gancho) vía Resend o Composio (Gmail)
-    if resend_api_key:
-        print(f"[*] Enviando correo ejecutivo 'Gancho' vía Resend desde '{sender_email}' a '{recipient_email}'...")
-        try:
-            send_email_via_resend(resend_api_key, sender_email, recipient_email, subject, email_html)
-        except Exception as e:
-            print(f"[!] Error enviando correo por Resend: {e}")
-            if composio_api_key:
-                print("[*] Intentando fallback de envío por Composio (Gmail)...")
-                try:
-                    gmail_resp = execute_composio_action(
-                        composio_api_key,
-                        "GMAIL_SEND_EMAIL",
-                        {
-                            "recipient_email": recipient_email,
-                            "subject": subject,
-                            "body": email_html,
-                            "is_html": True
-                        }
-                    )
-                    if gmail_resp and gmail_resp.get("successful"):
-                        print("[+] Correo ejecutivo enviado exitosamente vía Composio (fallback)!")
-                except Exception as ex_fallback:
-                    print(f"[!] Error en fallback de Gmail: {ex_fallback}")
-    elif composio_api_key:
-        print(f"[*] Enviando correo ejecutivo 'Gancho' vía Gmail (Composio) a: {recipient_email}...")
-        try:
-            gmail_resp = execute_composio_action(
-                composio_api_key,
-                "GMAIL_SEND_EMAIL",
-                {
-                    "recipient_email": recipient_email,
-                    "subject": subject,
-                    "body": email_html,
-                    "is_html": True
-                }
-            )
-            if gmail_resp and gmail_resp.get("successful"):
-                print(f"[+] Correo ejecutivo enviado exitosamente vía Composio!")
-            else:
-                print(f"[-] Respuesta Gmail: {gmail_resp}")
-        except Exception as e:
-            print(f"[!] Error enviando correo por Gmail vía Composio: {e}")
-    else:
-        print("[-] Aviso: No se configuró RESEND_API_KEY ni COMPOSIO_API_KEY. Envío de correo omitido.")
+    # 2. Envío de Correo Electrónico personalizado a cada suscriptor activo
+    if not subscribers:
+        print("[-] Aviso: No hay destinatarios ni suscriptores configurados para el envío de correo.")
+        return
+
+    print(f"[*] Iniciando envío del boletín diario a {len(subscribers)} destinatario(s)...")
+
+    for sub in subscribers:
+        dest_email = sub["email"]
+        dest_name = sub.get("name") or extract_first_name(dest_email)
+        
+        # Generar correo HTML con saludo personalizado
+        personalized_html = generate_email_hook_html(data_dict, site_base_url, dest_name)
+
+        if resend_api_key:
+            try:
+                send_email_via_resend(resend_api_key, sender_email, dest_email, subject, personalized_html)
+            except Exception as e:
+                print(f"[!] Error enviando correo por Resend a '{dest_email}': {e}")
+                if composio_api_key:
+                    print(f"[*] Intentando fallback vía Composio (Gmail) para '{dest_email}'...")
+                    try:
+                        gmail_resp = execute_composio_action(
+                            composio_api_key,
+                            "GMAIL_SEND_EMAIL",
+                            {
+                                "recipient_email": dest_email,
+                                "subject": subject,
+                                "body": personalized_html,
+                                "is_html": True
+                            }
+                        )
+                        if gmail_resp and gmail_resp.get("successful"):
+                            print(f"[+] Correo enviado exitosamente vía Composio (fallback) a {dest_email}!")
+                    except Exception as ex_fb:
+                        print(f"[!] Error en fallback Gmail para '{dest_email}': {ex_fb}")
+        elif composio_api_key:
+            print(f"[*] Enviando correo ejecutivo 'Gancho' vía Gmail (Composio) a: {dest_email}...")
+            try:
+                gmail_resp = execute_composio_action(
+                    composio_api_key,
+                    "GMAIL_SEND_EMAIL",
+                    {
+                        "recipient_email": dest_email,
+                        "subject": subject,
+                        "body": personalized_html,
+                        "is_html": True
+                    }
+                )
+                if gmail_resp and gmail_resp.get("successful"):
+                    print(f"[+] Correo enviado exitosamente vía Composio a {dest_email}!")
+            except Exception as e:
+                print(f"[!] Error enviando correo por Gmail vía Composio: {e}")
+        else:
+            print(f"[-] Envío omitido para {dest_email}: No hay claves de correo configuradas.")
 
 def main():
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
@@ -593,6 +655,16 @@ def main():
     database_id = os.environ.get("NOTION_DATABASE_ID", "3ba5d0f0-6844-8066-93f3-dfbc26b037f0")
     recipient_email = os.environ.get("RECIPIENT_EMAIL", "consultoramaldonado@gmail.com")
     site_base_url = os.environ.get("SITE_BASE_URL", "https://informe.consultoramaldonado.com")
+    
+    # Variables de entorno para la Base de Datos de Suscriptores (Google Sheets)
+    google_script_webhook_url = os.environ.get(
+        "GOOGLE_SCRIPT_WEBHOOK_URL",
+        "https://script.google.com/macros/s/AKfycbyutppEe_GZqwaPeWKiWrkohhBcM1rxpyP2g_0IoEF83OiDuI3A1x62LnhloMq0a2f43Q/exec"
+    )
+    subscribers_sheet_csv_url = os.environ.get(
+        "SUBSCRIBERS_SHEET_CSV_URL",
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRCdXl8LUmzWaXSbxWL8hO3e5Hq3Q0Ct4bRiOSSwibA425rjUz1oMvBFcowf5WSUwmccNUJmyW0ZQzh/pub?output=csv"
+    )
 
     if not gemini_api_key:
         print("[!] Error: GEMINI_API_KEY no está configurada en las variables de entorno.")
@@ -622,25 +694,32 @@ def main():
     generate_infographic_card(data_dict, infografia_latest_path)
 
     # 3. Generar la Landing Page Web y el Archivo Histórico (para GitHub Pages)
-    build_web_landing_pages(data_dict, full_markdown, docs_dir, site_base_url)
+    build_web_landing_pages(
+        data_dict=data_dict,
+        full_markdown=full_markdown,
+        docs_dir=docs_dir,
+        base_url=site_base_url,
+        google_script_webhook_url=google_script_webhook_url
+    )
 
-    # 4. Generar el Correo Electrónico "Gancho" con CTA a la Web
-    image_web_url = f"{site_base_url}/assets/infografia-latest.png"
-    
-    nombre_cliente = extract_first_name(recipient_email)
-    email_html = generate_email_hook_html(data_dict, site_base_url, nombre_cliente)
+    # 4. Obtener lista de suscriptores (desde Google Sheets o fallback)
+    subscribers = fetch_active_subscribers(
+        sheet_csv_url=subscribers_sheet_csv_url,
+        fallback_email=recipient_email
+    )
 
-    # 5. Publicar respaldo en Notion y Enviar por Resend (o Gmail mediante Composio)
+    # 5. Publicar respaldo en Notion y Enviar por Resend a toda la lista de suscriptores
     publish_and_send_briefing(
-        resend_api_key,
-        sender_email,
-        composio_api_key,
-        database_id,
-        title,
-        full_markdown,
-        recipient_email,
-        subject,
-        email_html
+        resend_api_key=resend_api_key,
+        sender_email=sender_email,
+        composio_api_key=composio_api_key,
+        database_id=database_id,
+        title=title,
+        full_markdown=full_markdown,
+        subscribers=subscribers,
+        subject=subject,
+        data_dict=data_dict,
+        site_base_url=site_base_url
     )
 
     print(f"=== PROCESO COMPLETADO EXITOSAMENTE PARA: {fecha_str} ===")
