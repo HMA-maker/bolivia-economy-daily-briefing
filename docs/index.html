@@ -26,6 +26,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Detección Inmediata de Entorno Embebido / Iframe -->
+  <script>
+    try {
+      if (window.self !== window.top || window.location.search.includes('embed=true')) {
+        document.documentElement.classList.add('is-framed');
+      }
+    } catch (e) {
+      document.documentElement.classList.add('is-framed');
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
   <!-- Schema.org JSON-LD -->
@@ -57,6 +67,11 @@
   </script>
 
   <style>
+    /* OCULTAR MENÚ SI ESTÁ EMBEBIDO EN UN MARCO / GOOGLE SITES */
+    .is-framed .top-nav {
+      display: none !important;
+    }
+
     :root {
       --primary-navy: #091a2b;
       --navy-light: #0d3b66;
