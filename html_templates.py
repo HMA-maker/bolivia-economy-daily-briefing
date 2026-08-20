@@ -80,23 +80,23 @@ def format_markdown_body_to_html(markdown_content, kpis=None):
         <!-- Eje 2: Brecha Cambiaria -->
         <div class="kpi-card blue" style="padding:15px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
           <div class="kpi-tag">Spread Cambiario</div>
-          <div style="font-size: 32px; font-weight: 900; color: #ef4444;">{{kpis.get("brecha_cambiaria_pct", "+58.0%")}}</div>
-          <div style="font-size: 11px; color: #64748b; margin-top:8px;">Oficial: {{kpis.get("tipo_cambio_oficial", "6.96")}}</div>
-          <div style="font-size: 11px; color: #64748b;">Paralelo: {{kpis.get("tipo_cambio_paralelo", "11.00")}}</div>
+          <div style="font-size: 32px; font-weight: 900; color: #ef4444;">{kpis.get("brecha_cambiaria_pct", "+58.0%")}</div>
+          <div style="font-size: 11px; color: #64748b; margin-top:8px;">Oficial: {kpis.get("tipo_cambio_oficial", "6.96")}</div>
+          <div style="font-size: 11px; color: #64748b;">Paralelo: {kpis.get("tipo_cambio_paralelo", "11.00")}</div>
         </div>
         
         <!-- Eje 3: Comercio Exterior -->
         <div class="kpi-card blue" style="padding:15px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
           <div class="kpi-tag">Balanza Comercial</div>
-          <div style="font-size: 32px; font-weight: 900; color: #10b981;">{{kpis.get("balanza_comercial", "-$320 M")}}</div>
+          <div style="font-size: 32px; font-weight: 900; color: #10b981;">{kpis.get("balanza_comercial", "-$320 M")}</div>
           <div style="font-size: 12px; color: #64748b; margin-top:8px; text-align:center;">Déficit persistente en sector energético</div>
         </div>
 
         <!-- Eje 4: Tasas ASFI -->
         <div class="kpi-card blue" style="padding:15px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
           <div class="kpi-tag">Tasa Activa Promedio</div>
-          <div style="font-size: 32px; font-weight: 900; color: #0284c7;">{{kpis.get("tasa_activa_promedio", "6.5%")}}</div>
-          <div style="font-size: 12px; color: #64748b; margin-top:8px; text-align:center;">Comisiones giros: {{kpis.get("comision_giros_exterior", "10%-15%")}}</div>
+          <div style="font-size: 32px; font-weight: 900; color: #0284c7;">{kpis.get("tasa_activa_promedio", "6.5%")}</div>
+          <div style="font-size: 12px; color: #64748b; margin-top:8px; text-align:center;">Comisiones giros: {kpis.get("comision_giros_exterior", "10%-15%")}</div>
         </div>
         
         <!-- Eje 5: Inflación -->
@@ -150,7 +150,7 @@ def format_markdown_body_to_html(markdown_content, kpis=None):
         Ver Desglose Analítico Completo (Reporte Original)
       </summary>
       <div style="margin-top: 20px;" class="report-markdown-content">
-        {{md_html}}
+        {md_html}
       </div>
     </details>
     '''
