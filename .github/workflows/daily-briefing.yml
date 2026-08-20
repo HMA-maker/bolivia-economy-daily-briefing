@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del código
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Configurar Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
@@ -52,6 +52,7 @@ jobs:
             echo "No hay cambios nuevos en docs/"
           else
             git commit -m "Auto-publicación: Reporte Diario y Landing Page $(date +'%Y-%m-%d') [skip ci]"
-            git pull --rebase origin main
-            git push origin main
+            git fetch origin main
+            git rebase origin/main
+            git push origin HEAD:main
           fi
