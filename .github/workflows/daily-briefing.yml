@@ -52,5 +52,6 @@ jobs:
             echo "No hay cambios nuevos en docs/"
           else
             git commit -m "Auto-publicación: Reporte Diario y Landing Page $(date +'%Y-%m-%d') [skip ci]"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
