@@ -1466,6 +1466,32 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
   </script>
 
   <script>
+    function fetchReport(target) {{
+      if (!target) return;
+      var select = document.querySelector('.archive-select');
+      if (select) {{
+        select.disabled = true;
+        select.style.opacity = '0.6';
+        select.style.cursor = 'wait';
+      }}
+      document.body.style.cursor = 'wait';
+      
+      var filename = target.split('/').pop();
+      var isInsideReportsDir = window.location.pathname.includes('/reports/');
+      var isCustomDomain = window.location.hostname.includes('consultoramaldonado.com');
+      
+      var nextUrl = target;
+      if (!isCustomDomain && filename.endsWith('.html')) {{
+        nextUrl = (isInsideReportsDir ? '' : 'reports/') + filename;
+      }}
+      
+      if (window.location.search.includes('embed=true') && !nextUrl.includes('embed=true')) {{
+        nextUrl += (nextUrl.includes('?') ? '&' : '?') + 'embed=true';
+      }}
+      
+      window.location.href = nextUrl;
+    }}
+
     window.addEventListener('resize', function() {{
       if (window.chartRIN_instance) window.chartRIN_instance.resize();
       if (window.chartBalanza_instance) window.chartBalanza_instance.resize();
