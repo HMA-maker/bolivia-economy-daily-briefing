@@ -25,7 +25,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -67,6 +67,9 @@
       --text-muted: #64748b;
       --card-bg: #ffffff;
       --card-border: #e2e8f0;
+      --font-editorial: 'Bitter', Georgia, serif;
+      --cm-gold: #eea10a;
+      --cm-gold-hover: #d97706;
       --font-heading: 'Plus Jakarta Sans', -apple-system, sans-serif;
       --font-body: 'Inter', -apple-system, sans-serif;
     }
@@ -87,14 +90,14 @@
 
     /* BARRA SUPERIOR DE NAVEGACIÓN INSTITUCIONAL */
     .top-nav {
-      background-color: var(--primary-navy);
-      color: #ffffff;
-      padding: 14px 24px;
-      border-bottom: 1px solid #1e3a5f;
+      background-color: #ffffff;
+      color: #1e293b;
+      padding: 12px 24px;
+      border-bottom: 1px solid #e2e8f0;
       position: sticky;
       top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
     }
 
     .nav-container {
@@ -147,10 +150,20 @@
 
     /* HERO SECTION */
     .hero-section {
-      background: linear-gradient(180deg, var(--primary-navy) 0%, var(--navy-light) 100%);
+      background: radial-gradient(circle at 50% 15%, rgba(238, 161, 10, 0.08) 0%, transparent 65%), linear-gradient(135deg, #071524 0%, #091a2b 40%, #0d3b66 85%, #0f4c81 100%);
       color: #ffffff;
-      padding: 48px 24px 60px 24px;
+      padding: 50px 24px 65px 24px;
       text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .hero-accent-line {
+      width: 85px;
+      height: 4px;
+      background-color: var(--cm-gold);
+      margin: 0 auto 16px auto;
+      border-radius: 2px;
+      box-shadow: 0 2px 8px rgba(238, 161, 10, 0.35);
     }
 
     .hero-container {
@@ -173,11 +186,12 @@
     }
 
     .hero-title {
-      font-family: var(--font-heading);
-      font-size: 32px;
-      font-weight: 900;
+      font-family: var(--font-editorial);
+      font-size: 34px;
+      font-weight: 700;
       line-height: 1.25;
-      letter-spacing: -0.8px;
+      letter-spacing: -0.4px;
+      color: #ffffff;
       margin-bottom: 12px;
     }
 
@@ -476,8 +490,14 @@
 
     @media (max-width: 768px) {
       .hero-title {
-        font-size: 24px;
-      }
+      font-family: var(--font-editorial);
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.4px;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
       .report-card {
         padding: 24px 18px;
       }
@@ -508,25 +528,29 @@
 </head>
 <body>
 
-  <!-- BARRA DE NAVEGACIÓN INSTITUCIONAL -->
+    <!-- BARRA DE NAVEGACION INSTITUCIONAL -->
   <nav class="top-nav">
     <div class="nav-container">
-      <a href="https://www.consultoramaldonado.com" class="brand-logo">
-        <span>CONSULTORA MALDONADO</span>
-        <span class="brand-tag">Macroeconomía</span>
+      <a href="https://www.consultoramaldonado.com" class="brand-logo" title="Consultora Maldonado">
+        <img src="../assets/logo.png" alt="Consultora Maldonado Logo">
+        <div class="brand-info">
+          <span class="brand-name">CONSULTORA MALDONADO</span>
+          <span class="brand-tag">Economía &amp; Finanzas</span>
+        </div>
       </a>
       <div class="nav-links">
-        <a href="https://www.consultoramaldonado.com">Inicio</a>
+        <a href="https://www.consultoramaldonado.com/informe_financiero" class="active">Informe Financiero</a>
         <a href="https://www.consultoramaldonado.com/cotizaci%C3%B3n-d%C3%B3lar">Cotización Dólar</a>
-        <a href="https://www.consultoramaldonado.com/feriados-en-bolivia">Feriados</a>
-        <a href="https://informe.consultoramaldonado.com">Informe Diario</a>
+        <a href="https://www.consultoramaldonado.com/feriados-en-bolivia">Feriados en Bolivia</a>
+        <a href="https://www.consultoramaldonado.com/terminos-y-condiciones-de-uso">Términos y Condiciones</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION / BANNER INSTITUCIONAL -->
   <header class="hero-section">
     <div class="hero-container">
+      <div class="hero-accent-line"></div>
       <div class="hero-badge">🇧🇴 Análisis Macroeconómico Diario</div>
       <h1 class="hero-title">Resumen Ejecutivo: Macroeconomía de Bolivia</h1>
       <p class="hero-subtitle">Informe de solvencia, mercado de divisas, reservas y riesgo crediticio • <strong>17 de agosto de 2026</strong></p>
