@@ -145,9 +145,9 @@ def format_markdown_body_to_html(markdown_content, kpis=None):
     
     # 4. Wrap raw markdown details in collapsible `<details>` tags
     details_html = f'''
-    <details style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 20px;">
+    <details class="analytics-accordion" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 20px; transition: all 0.3s ease;">
       <summary style="font-weight: 900; font-family: var(--font-heading); color: var(--navy-light); cursor: pointer; outline: none; padding: 10px 0;">
-        Ver Desglose Analítico Completo (Reporte Original)
+        <span>Ver Desglose Analítico Completo (Reporte Original)</span>
       </summary>
       <div style="margin-top: 20px;" class="report-markdown-content">
         {md_html}
@@ -1108,6 +1108,28 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     .report-markdown-content p, .report-markdown-content li {{
       color: #334155; line-height: 1.7; margin-bottom: 1em;
     }}
+    
+    .analytics-accordion summary {{
+      display: flex; justify-content: space-between; align-items: center; list-style: none;
+    }}
+    .analytics-accordion summary::-webkit-details-marker {{ display: none; }}
+    .analytics-accordion summary::after {{
+      content: "\25BC"; font-size: 12px; transition: transform 0.3s ease; color: var(--accent-blue); margin-left: 10px;
+    }}
+    .analytics-accordion[open] summary::after {{
+      transform: rotate(180deg);
+    }}
+    .analytics-accordion[open] {{
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-color: #cbd5e1 !important;
+    }}
+    
+    @media (max-width: 360px) {{
+      .kpi-card canvas {{
+        max-height: 100px;
+        padding: 5px;
+      }}
+    }}
     </style>
 </head>
 <body>
@@ -1197,20 +1219,7 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       </div>
     </section>
 
-    <!-- LEAD MAGNET O CAPTURA DE DATOS -->
-    <section style="background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 32px 24px; text-align: center; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.05);">
-      <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 900; color: var(--primary-navy); margin-bottom: 8px;">¿Necesitas esta información cada mañana?</h3>
-      
-      <form id="subscribe-form" style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" onsubmit="return handleFormSubmit(event)">
-        <input type="hidden" name="source" value="landing_page">
-        <input type="hidden" name="timestamp" class="form-timestamp">
-        <input type="text" name="lead_name" aria-label="Nombre completo" placeholder="Nombre completo" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="email" name="lead_email" aria-label="Correo electrónico" placeholder="tu.correo@empresa.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <input type="tel" name="lead_phone" aria-label="Teléfono" placeholder="Teléfono" style="width: 100%; padding: 12px 16px; border: 1px solid var(--card-border); border-radius: 6px; font-family: var(--font-body); font-size: 14px;" required>
-        <button type="submit" onclick="if(window.gtag) gtag('event', 'subscribe');" style="background: var(--accent-blue); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 900; font-family: var(--font-body); cursor: pointer; transition: background 0.2s;">Suscribirme al Reporte Diario</button>
-      </form>
-      <p style="font-size: 11px; color: #94a3b8; margin-top: 12px;">Cero spam. Solo información macroeconómica de alto valor.</p>
-    </section>
+    
 
     <!-- 3. MINI-DASHBOARD TENDENCIAS (REEMPLAZO INFOGRAFÍA ESTÁTICA Y TEXTOS POR CHART.JS) -->
     <section style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);">
@@ -1270,27 +1279,24 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
     
     
 
-    <!-- BRAND HIGHLIGHT BANNER (INLINE FORM) -->
-    <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 24px; margin-bottom: 32px; gap: 16px;">
-      <div style="text-align: center; margin-bottom: 20px;">
-        <h3 style="color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 900; margin-bottom: 8px;">Análisis Profundo por Consultora Maldonado</h3>
-        
-      </div>
-      <form id="contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: flex-end;">
-
-        <input type="hidden" name="source" value="landing_page">
-        <input type="hidden" name="timestamp" class="form-timestamp">
-        <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Nombre completo</label><input type="text" name="name" placeholder="Ej. Juan Pérez" required style="padding: 12px; border: none; border-radius: 6px;"></div>
-        <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Correo corporativo</label><input type="email" name="email" placeholder="ejemplo@empresa.com" required style="padding: 12px; border: none; border-radius: 6px;"></div>
-        <div style="display:flex; flex-direction:column; gap:4px; flex:1; min-width:200px; text-align:left;"><label style="font-size:12px; font-weight:700; color:#cbd5e1; text-transform:uppercase;">Teléfono / WhatsApp</label><input type="tel" name="phone" placeholder="+591 70000000" required style="padding: 12px; border: none; border-radius: 6px;"></div>
-        <button type="button" onclick="document.getElementById('contactModal').style.display='flex'" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 900; cursor: pointer;">Agendar Asesoría</button>
-      
-</form>
-    </section>
+    
 
     <!-- 4. CUERPO DEL REPORTE COMPLETO -->
     <article class="report-card">
       {rendered_body}
+
+    <!-- UNIFIED CRO FORM -->
+    <section style="background: linear-gradient(90deg, var(--navy-light) 0%, var(--primary-navy) 100%); border-radius: 12px; padding: 36px 32px; margin-top: 40px; margin-bottom: 32px; text-align: center; color: #fff; box-shadow: 0 10px 25px rgba(13, 59, 102, 0.15);">
+      <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 900; margin-bottom: 12px;">¿Necesita asesoría corporativa sobre estos datos?</h3>
+      <p style="font-size: 15px; color: #cbd5e1; margin-bottom: 24px; max-width: 600px; margin-left: auto; margin-right: auto;">Suscríbase al reporte diario o agende una sesión de análisis profundo con nuestros expertos financieros para su junta directiva.</p>
+      <form id="unified-contact-form" onsubmit="return handleFormSubmit(event)" style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;">
+        <input type="hidden" name="source" value="landing_unified">
+        <input type="text" name="name" placeholder="Nombre completo" required style="padding: 14px 18px; border: none; border-radius: 6px; font-size: 14px; min-width: 200px; flex: 1;">
+        <input type="email" name="email" placeholder="Correo corporativo" required style="padding: 14px 18px; border: none; border-radius: 6px; font-size: 14px; min-width: 200px; flex: 1;">
+        <button type="submit" style="background: var(--accent-gold); color: var(--primary-navy); border: none; padding: 14px 28px; border-radius: 6px; font-weight: 900; cursor: pointer; transition: transform 0.2s; white-space: nowrap;">Contactar Analista Corporativo</button>
+      </form>
+    </section>
+    
     </article>
 
     <!-- 5. ARCHIVO HISTÓRICO Y COMPARTIR -->
