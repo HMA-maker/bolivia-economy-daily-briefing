@@ -1100,14 +1100,14 @@ def generate_landing_page_html(data, markdown_content, archive_list=None, base_u
       margin-bottom: 0.5em;
     }}
 
-    .report-markdown-content h1, .report-markdown-content h2, .report-markdown-content h3, .report-markdown-content h4 {
+    .report-markdown-content h1, .report-markdown-content h2, .report-markdown-content h3, .report-markdown-content h4 {{
       font-weight: 900 !important;
       color: var(--primary-navy);
       margin-top: 1.5em; margin-bottom: 0.5em;
-    }
-    .report-markdown-content p, .report-markdown-content li {
+    }}
+    .report-markdown-content p, .report-markdown-content li {{
       color: #334155; line-height: 1.7; margin-bottom: 1em;
-    }
+    }}
     </style>
 </head>
 <body>
