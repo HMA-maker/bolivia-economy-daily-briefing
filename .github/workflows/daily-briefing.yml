@@ -3,7 +3,7 @@ name: Resumen Ejecutivo Diario Macroeconomía Bolivia
 on:
   schedule:
     # 11:00 UTC corresponde a las 07:00 a. m. hora de Bolivia (UTC-4)
-    - cron: '0 11 * * *'
+    - cron: '0 07 * * *'
   workflow_dispatch: # Permite ejecutar manualmente en cualquier momento desde la web de GitHub
 
 permissions:
